@@ -1530,7 +1530,7 @@
                 <article class="project-card">
                   <div class="panel-head">
                     <span class="message-type">${esc(p.status)}</span>
-                    ${canLead() ? `<button class="text-btn" data-action="edit-project" data-id="${p.id}">Edit</button>` : ""}
+                    ${canLead() ? `<div class="actions" style="gap:8px"><button class="text-btn" data-action="edit-project" data-id="${p.id}">Edit</button>${isFounder() ? `<button class="text-btn" style="color:#dc2626" data-action="delete-project" data-id="${p.id}">Delete</button>` : ""}</div>` : ""}
                   </div>
                   <h3>${esc(p.name)}</h3>
                   <p>${esc(p.description)}</p>
@@ -1653,7 +1653,7 @@
                 </div>
                 <div class="employee-card-foot">
                   <span class="status ${e.active ? "completed" : "todo"}">${e.active ? "Active" : "Inactive"}</span>
-                  ${isFounder() ? `<button class="text-btn" data-action="edit-employee" data-id="${e.id}">Manage</button>` : ""}
+                  ${isFounder() ? `<div class="actions" style="gap:8px"><button class="text-btn" data-action="edit-employee" data-id="${e.id}">Manage</button>${e.id !== current().id && e.appRole !== "founder" ? `<button class="text-btn" style="color:#dc2626" data-action="fire-employee" data-id="${e.id}">Fire</button>` : ""}</div>` : ""}
                 </div>
               </article>
             `).join("")}
@@ -2373,6 +2373,30 @@
           case "view-task": viewTask(id); break;
           case "edit-employee": newEmployee(obj(db.employees)); break;
           case "edit-project": newProject(obj(db.projects)); break;
+          case "delete-project": {
+            const p = obj(db.projects);
+            if (!p) break;
+            if (confirm(`Delete project "${p.name}" and all its tasks?`)) {
+              db.projects = db.projects.filter(x => x.id !== id);
+              db.tasks = db.tasks.filter(t => t.projectId !== id);
+              save();
+              render();
+              toast("Project deleted");
+            }
+            break;
+          }
+          case "fire-employee": {
+            const emp = obj(db.employees);
+            if (!emp || emp.id === current().id) break;
+            if (confirm(`Fire ${emp.name} and remove their account?`)) {
+              db.employees = db.employees.filter(x => x.id !== id);
+              db.projects.forEach(p => { p.memberIds = p.memberIds.filter(m => m !== id); });
+              save();
+              render();
+              toast(`${emp.name} removed from workspace`);
+            }
+            break;
+          }
           case "profile": profileModal(); break;
           case "change-password": changePasswordModal(); break;
           case "logout": logout(); break;
