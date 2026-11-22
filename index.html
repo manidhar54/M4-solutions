@@ -1,0 +1,2540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0f1c33">
+  <title>M4 Solutions — Workspace</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0f1c33;
+      --navy-2: #16243f;
+      --navy-3: #1d2f52;
+      --accent: #6d5efc;
+      --accent-2: #5b4ce6;
+      --accent-soft: #ece9ff;
+      --bg: #f4f6fb;
+      --surface: #fff;
+      --text: #152033;
+      --muted: #667085;
+      --line: #e6eaf2;
+      --success: #14945a;
+      --warn: #c47b12;
+      --danger: #d64545;
+      --info: #2d6cdf;
+      --shadow: 0 10px 30px rgba(21, 32, 51, 0.08);
+      --radius: 16px;
+      --sidebar: 260px;
+    }
+
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      font-family: 'Inter', system-ui, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+    }
+    body { font-size: 14px; }
+    button, input, select, textarea { font: inherit; }
+    button { cursor: pointer; }
+    button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+      outline: 3px solid #b8b1ff;
+      outline-offset: 2px;
+    }
+    svg {
+      width: 20px;
+      height: 20px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex: none;
+    }
+
+    /* ================= LOGIN SCREEN ================= */
+    .auth-shell {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1.08fr 1fr;
+      background: var(--surface);
+    }
+    .auth-hero {
+      background: linear-gradient(155deg, var(--navy) 0%, #142647 55%, #1c2854 100%);
+      color: #fff;
+      padding: 48px 56px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+    }
+    .auth-hero::before {
+      content: "";
+      position: absolute;
+      width: 420px;
+      height: 420px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(109, 94, 252, 0.28) 0%, transparent 70%);
+      top: -110px;
+      right: -110px;
+      pointer-events: none;
+    }
+    .auth-hero::after {
+      content: "";
+      position: absolute;
+      width: 340px;
+      height: 340px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(45, 108, 223, 0.22) 0%, transparent 70%);
+      bottom: -90px;
+      left: -80px;
+      pointer-events: none;
+    }
+    .auth-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      position: relative;
+      z-index: 1;
+    }
+    .auth-brand .brand-mark {
+      width: 46px;
+      height: 46px;
+      font-size: 17px;
+      box-shadow: 0 8px 20px rgba(109, 94, 252, 0.35);
+    }
+    .auth-hero-copy {
+      max-width: 480px;
+      position: relative;
+      z-index: 1;
+      margin: 32px 0;
+    }
+    .auth-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      padding: 6px 12px;
+      border-radius: 99px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #d6deff;
+      margin-bottom: 20px;
+    }
+    .auth-hero-copy h1 {
+      font-size: 34px;
+      line-height: 1.18;
+      letter-spacing: -1px;
+      margin: 0 0 16px;
+      font-weight: 800;
+    }
+    .auth-hero-copy p {
+      color: #b4c0d8;
+      font-size: 14px;
+      line-height: 1.65;
+      margin: 0 0 28px;
+    }
+    .erp-preview-card {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 16px;
+      padding: 18px;
+      backdrop-filter: blur(8px);
+    }
+    .erp-preview-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      font-size: 11px;
+      color: #cbd5e1;
+    }
+    .erp-preview-bars {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    .erp-mini-stat {
+      background: rgba(15, 28, 51, 0.55);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 11px;
+      padding: 12px;
+    }
+    .erp-mini-stat span {
+      display: block;
+      font-size: 10px;
+      color: #93a0bb;
+    }
+    .erp-mini-stat strong {
+      display: block;
+      font-size: 18px;
+      margin-top: 4px;
+      color: #fff;
+    }
+    .auth-hero-foot {
+      font-size: 12px;
+      color: #8c9bb8;
+      position: relative;
+      z-index: 1;
+    }
+
+    .auth-main {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 36px 24px;
+      background: #f8f9fd;
+    }
+    .auth-card {
+      width: 100%;
+      max-width: 430px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 36px 32px;
+      box-shadow: 0 20px 50px rgba(15, 28, 51, 0.06);
+    }
+    .auth-card h2 {
+      margin: 0;
+      font-size: 22px;
+      letter-spacing: -0.5px;
+    }
+    .auth-card .auth-sub {
+      margin: 6px 0 22px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .portal-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: #f1f3f9;
+      padding: 4px;
+      border-radius: 12px;
+      margin-bottom: 22px;
+      border: 1px solid var(--line);
+    }
+    .portal-tab {
+      border: 0;
+      background: transparent;
+      padding: 10px 12px;
+      border-radius: 9px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      transition: 0.2s;
+    }
+    .portal-tab.active {
+      background: var(--surface);
+      color: var(--text);
+      box-shadow: 0 2px 8px rgba(15, 28, 51, 0.08);
+    }
+    .portal-tab svg { width: 15px; height: 15px; }
+    .auth-form {
+      display: grid;
+      gap: 15px;
+    }
+    .password-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .password-wrap .form-control {
+      padding-right: 40px;
+    }
+    .pwd-toggle {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-25%);
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      padding: 4px;
+      display: grid;
+      place-items: center;
+    }
+    .pwd-toggle svg { width: 16px; height: 16px; }
+    .auth-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+    }
+    .check-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--muted);
+      cursor: pointer;
+    }
+    .auth-submit {
+      width: 100%;
+      padding: 12px;
+      font-size: 13px;
+      margin-top: 6px;
+    }
+
+    /* ================= WORKSPACE APP ================= */
+    .app { display: flex; min-height: 100vh; }
+    .sidebar {
+      width: var(--sidebar);
+      background: linear-gradient(180deg, var(--navy), #10192c);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      padding: 20px 14px;
+      position: fixed;
+      inset: 0 auto 0 0;
+      height: 100vh;
+      z-index: 30;
+      transition: transform 0.25s;
+    }
+    .brand { display: flex; gap: 12px; align-items: center; padding: 8px 10px 24px; }
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: var(--accent);
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      letter-spacing: -1px;
+      color: #fff;
+    }
+    .brand-name { margin: 0; font-weight: 700; }
+    .brand-sub, .muted { margin: 4px 0 0; color: var(--muted); font-size: 12px; }
+    .sidebar .brand-sub { color: #93a0bb; }
+    .nav { display: flex; flex-direction: column; gap: 5px; flex: 1; overflow: auto; }
+    .nav-btn {
+      border: 0;
+      background: transparent;
+      color: #c9d3e8;
+      text-align: left;
+      padding: 11px 12px;
+      border-radius: 11px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      font-size: 13px;
+      transition: 0.2s;
+    }
+    .nav-btn svg { width: 18px; height: 18px; }
+    .nav-btn.active, .nav-btn:hover { background: var(--navy-3); color: #fff; }
+    .sidebar-user {
+      background: var(--navy-2);
+      border-radius: 14px;
+      padding: 12px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 14px;
+      cursor: pointer;
+      border: 1px solid rgba(255,255,255,0.06);
+      transition: 0.2s;
+    }
+    .sidebar-user:hover { background: var(--navy-3); }
+    .sidebar-user .user-meta { min-width: 0; flex: 1; }
+    .sidebar-user strong { display: block; font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .sidebar-user small { color: #9eabc4; font-size: 11px; display: block; }
+    .avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: var(--accent-soft);
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      color: var(--accent);
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .avatar.lg { width: 54px; height: 54px; font-size: 18px; }
+    .avatar.sm { width: 30px; height: 30px; font-size: 11px; }
+
+    .main { flex: 1; min-width: 0; margin-left: var(--sidebar); }
+    .topbar {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 17px 28px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--line);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      min-height: 82px;
+    }
+    .page-heading { min-width: 180px; }
+    .topbar h1 { font-size: 19px; margin: 0; font-weight: 700; letter-spacing: -0.4px; }
+    .topbar .muted { margin-top: 5px; }
+    .topbar-actions { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+    .search-wrap {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      background: #f7f8fc;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 0 11px;
+      width: min(260px, 24vw);
+      height: 40px;
+      color: #8a94a6;
+    }
+    .search-wrap svg { width: 17px; }
+    .search-wrap input { border: 0; outline: 0; background: transparent; width: 100%; min-width: 0; color: var(--text); font-size: 12px; }
+    .icon-btn {
+      width: 38px;
+      height: 38px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: #58647a;
+      border-radius: 10px;
+      display: inline-grid;
+      place-items: center;
+      position: relative;
+    }
+    .icon-btn:hover { background: #f7f8fc; color: var(--accent); }
+    .icon-btn svg { width: 18px; }
+    .menu-btn { display: none; }
+    .badge-dot {
+      position: absolute;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #ef5350;
+      right: 8px;
+      top: 8px;
+      border: 1px solid white;
+    }
+    .role-chip {
+      background: var(--accent-soft);
+      color: var(--accent-2);
+      padding: 8px 11px;
+      border-radius: 9px;
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    /* Account Menu Dropdown */
+    .account-menu-wrap { position: relative; }
+    .account-trigger {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      padding: 4px 10px 4px 5px;
+      transition: 0.2s;
+    }
+    .account-trigger:hover { background: #f7f8fc; border-color: #d6dce8; }
+    .account-trigger-info { text-align: left; line-height: 1.25; }
+    .account-trigger-info strong { display: block; font-size: 12px; color: var(--text); }
+    .account-trigger-info small { display: block; font-size: 10px; color: var(--muted); }
+    .account-dropdown {
+      position: absolute;
+      right: 0;
+      top: calc(100% + 8px);
+      width: 240px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      box-shadow: 0 16px 40px rgba(15, 28, 51, 0.14);
+      padding: 8px;
+      z-index: 45;
+      animation: toastIn 0.16s ease;
+    }
+    .account-dropdown[hidden] { display: none; }
+    .dropdown-header {
+      padding: 10px 12px;
+      border-bottom: 1px solid #f0f2f7;
+      margin-bottom: 6px;
+    }
+    .dropdown-header strong { display: block; font-size: 13px; }
+    .dropdown-header small { display: block; font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .dropdown-item {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      padding: 9px 12px;
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text);
+      text-align: left;
+      transition: 0.15s;
+    }
+    .dropdown-item svg { width: 16px; height: 16px; color: var(--muted); }
+    .dropdown-item:hover { background: #f4f6fb; color: var(--accent); }
+    .dropdown-item:hover svg { color: var(--accent); }
+    .dropdown-divider { height: 1px; background: #f0f2f7; margin: 6px 0; }
+    .dropdown-item.danger { color: var(--danger); }
+    .dropdown-item.danger svg { color: var(--danger); }
+    .dropdown-item.danger:hover { background: #fff5f5; }
+
+    /* Content & Components */
+    .content { padding: 28px; max-width: 1600px; margin: auto; }
+    .welcome-row { display: flex; align-items: flex-end; justify-content: space-between; gap: 18px; margin-bottom: 22px; }
+    .welcome-row h2 { font-size: 22px; margin: 0; letter-spacing: -0.7px; }
+    .welcome-row p { margin: 7px 0 0; color: var(--muted); font-size: 13px; }
+    .actions { display: flex; gap: 9px; flex-wrap: wrap; }
+    .btn {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: #344054;
+      padding: 10px 14px;
+      border-radius: 9px;
+      font-size: 12px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: 0.2s;
+    }
+    .btn:hover { transform: translateY(-1px); box-shadow: 0 5px 14px rgba(21, 32, 51, 0.08); }
+    .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .btn.primary:hover { background: var(--accent-2); }
+    .btn.soft { background: var(--accent-soft); color: var(--accent-2); border-color: transparent; }
+    .btn.danger { color: var(--danger); background: #fff7f7; border-color: #f4d5d5; }
+    .btn.small { padding: 7px 10px; font-size: 11px; }
+    .btn svg { width: 15px; height: 15px; }
+
+    .stats-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 15px; margin-bottom: 20px; }
+    .stat-card, .panel, .project-card, .employee-card, .task-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 3px 12px rgba(21, 32, 51, 0.025);
+    }
+    .stat-card { padding: 18px; }
+    .stat-top { display: flex; justify-content: space-between; align-items: center; color: var(--muted); font-size: 12px; }
+    .stat-icon { width: 35px; height: 35px; border-radius: 10px; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; }
+    .stat-icon.green { background: #e6f6ee; color: var(--success); }
+    .stat-icon.orange { background: #fff3df; color: var(--warn); }
+    .stat-icon.blue { background: #eaf1ff; color: var(--info); }
+    .stat-value { font-size: 27px; font-weight: 750; letter-spacing: -1px; margin: 13px 0 5px; }
+    .stat-note { font-size: 11px; color: var(--muted); }
+
+    .dashboard-grid { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(280px, 0.9fr); gap: 16px; }
+    .panel { padding: 19px; margin-bottom: 16px; min-width: 0; }
+    .panel-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+    .panel-head h3 { font-size: 14px; margin: 0; }
+    .panel-head p { margin: 5px 0 0; color: var(--muted); font-size: 11px; }
+    .text-btn { border: 0; background: transparent; color: var(--accent); font-size: 11px; font-weight: 700; padding: 5px; }
+    .text-btn:hover { text-decoration: underline; }
+
+    .task-list, .activity-list, .notification-list { display: flex; flex-direction: column; }
+    .task-row { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-top: 1px solid #f0f2f7; }
+    .task-row:first-child { border-top: 0; padding-top: 0; }
+    .task-main { flex: 1; min-width: 0; }
+    .task-main strong { display: block; font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .task-main small { display: block; color: var(--muted); font-size: 10px; margin-top: 5px; }
+    .task-end { text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+
+    .status, .priority {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 20px;
+      padding: 5px 8px;
+      font-size: 10px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .status.todo { background: #f0f2f6; color: #667085; }
+    .status.progress { background: #eaf1ff; color: #2d6cdf; }
+    .status.review { background: #fff3df; color: #b7791f; }
+    .status.completed { background: #e6f6ee; color: #128452; }
+    .status.changes { background: #ffeded; color: #c63e3e; }
+    .priority.high { color: #c63e3e; background: #ffeded; }
+    .priority.medium { color: #b7791f; background: #fff3df; }
+    .priority.low { color: #667085; background: #f0f2f6; }
+
+    .progress-track { height: 6px; background: #edf0f5; border-radius: 99px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--accent); border-radius: 99px; transition: width 0.25s; }
+    .project-progress { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
+    .project-progress .progress-track { flex: 1; }
+    .project-progress small { font-size: 10px; color: var(--muted); min-width: 30px; text-align: right; }
+    .project-item { padding: 13px 0; border-top: 1px solid #f0f2f7; }
+    .project-item:first-child { border-top: 0; padding-top: 0; }
+    .project-item-head { display: flex; justify-content: space-between; gap: 10px; }
+    .project-item-head strong { font-size: 12px; }
+    .project-item-head small { font-size: 10px; color: var(--muted); }
+
+    .activity-item { display: flex; gap: 10px; padding: 10px 0; border-top: 1px solid #f0f2f7; }
+    .activity-item:first-child { border-top: 0; padding-top: 0; }
+    .activity-item p { font-size: 11px; margin: 0; line-height: 1.5; }
+    .activity-item small { font-size: 10px; color: var(--muted); }
+
+    .page-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 0 0 16px; flex-wrap: wrap; }
+    .filters { display: flex; gap: 8px; flex-wrap: wrap; }
+    .field-control, .form-control {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 9px;
+      padding: 9px 11px;
+      color: var(--text);
+      font-size: 12px;
+      min-height: 38px;
+    }
+    .field-control { min-width: 140px; }
+    .form-control { width: 100%; margin-top: 6px; }
+    .form-control:focus, .field-control:focus { border-color: #aaa2ff; outline: 3px solid #efedff; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; }
+    .form-field { display: block; font-size: 11px; font-weight: 650; color: #475467; }
+    .form-field.full { grid-column: 1 / -1; }
+    .form-field textarea { resize: vertical; min-height: 85px; }
+    .form-help { font-size: 10px; color: var(--muted); margin-top: 5px; display: block; }
+
+    .cards-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+    .project-card { padding: 17px; }
+    .project-card h3 { font-size: 14px; margin: 0 0 7px; }
+    .project-card p { font-size: 11px; color: var(--muted); line-height: 1.6; min-height: 36px; margin: 0; }
+    .card-meta { display: flex; justify-content: space-between; gap: 8px; margin-top: 14px; color: var(--muted); font-size: 10px; }
+    .member-stack { display: flex; align-items: center; margin-top: 14px; }
+    .member-stack .avatar { border: 2px solid white; margin-left: -7px; }
+    .member-stack .avatar:first-child { margin-left: 0; }
+
+    .employee-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+    .employee-card { padding: 17px; }
+    .employee-top { display: flex; align-items: center; gap: 11px; }
+    .employee-top h3 { font-size: 13px; margin: 0 0 4px; }
+    .employee-top p { font-size: 10px; color: var(--muted); margin: 0; }
+    .employee-details { border-top: 1px solid #f0f2f7; margin-top: 14px; padding-top: 12px; display: grid; gap: 8px; color: #667085; font-size: 10px; }
+    .employee-card-foot { display: flex; justify-content: space-between; align-items: center; margin-top: 14px; }
+
+    .kanban { display: grid; grid-template-columns: repeat(5, minmax(205px, 1fr)); gap: 12px; overflow-x: auto; padding-bottom: 8px; }
+    .kanban-col { background: #eef1f7; border-radius: 13px; padding: 11px; min-height: 270px; }
+    .kanban-head { display: flex; justify-content: space-between; align-items: center; padding: 4px 3px 11px; font-size: 11px; font-weight: 700; }
+    .kanban-count { background: #fff; border-radius: 20px; padding: 3px 7px; color: var(--muted); font-size: 10px; }
+    .kanban-card { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 12px; margin-bottom: 8px; box-shadow: 0 2px 5px rgba(21, 32, 51, 0.03); }
+    .kanban-card h4 { font-size: 11px; margin: 9px 0 6px; line-height: 1.4; }
+    .kanban-card p { font-size: 10px; color: var(--muted); margin: 0 0 10px; }
+    .kanban-foot { display: flex; justify-content: space-between; align-items: center; }
+
+    .empty-state { text-align: center; padding: 38px 18px; color: var(--muted); }
+    .empty-state strong { display: block; color: var(--text); font-size: 13px; margin-bottom: 6px; }
+    .empty-state p { font-size: 11px; margin: 0 0 13px; }
+
+    .meeting-row, .document-row, .message-card { display: flex; align-items: center; gap: 13px; padding: 14px 0; border-top: 1px solid #f0f2f7; }
+    .meeting-row:first-child, .document-row:first-child, .message-card:first-child { border-top: 0; padding-top: 0; }
+    .date-tile { width: 45px; height: 48px; border-radius: 10px; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; align-content: center; flex: none; }
+    .date-tile b { font-size: 16px; }
+    .date-tile small { font-size: 9px; text-transform: uppercase; font-weight: 700; }
+    .row-grow { flex: 1; min-width: 0; }
+    .row-grow strong { font-size: 12px; display: block; }
+    .row-grow p { font-size: 10px; color: var(--muted); margin: 5px 0 0; line-height: 1.5; }
+    .message-card { align-items: flex-start; }
+    .message-body { flex: 1; min-width: 0; }
+    .message-meta { display: flex; justify-content: space-between; gap: 10px; }
+    .message-meta strong { font-size: 11px; }
+    .message-meta small { font-size: 10px; color: var(--muted); }
+    .message-body p { font-size: 11px; line-height: 1.6; margin: 7px 0 0; color: #475467; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .message-type { font-size: 9px; font-weight: 700; color: var(--accent); background: var(--accent-soft); padding: 4px 7px; border-radius: 20px; }
+
+    .chart-bars { display: flex; align-items: flex-end; gap: 12px; height: 160px; padding: 15px 5px 0; border-bottom: 1px solid var(--line); }
+    .chart-col { flex: 1; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: 7px; }
+    .chart-bar { width: min(30px, 70%); background: #d8d3ff; border-radius: 6px 6px 0 0; min-height: 5px; }
+    .chart-col span { font-size: 9px; color: var(--muted); }
+    .report-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+
+    .drawer { position: fixed; right: 0; top: 0; height: 100vh; width: min(380px, 92vw); background: #fff; z-index: 60; box-shadow: -15px 0 40px rgba(15, 28, 51, 0.15); padding: 22px; transform: translateX(110%); transition: transform 0.25s; overflow: auto; }
+    .drawer.open { transform: translateX(0); }
+    .drawer-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .drawer-head h3 { font-size: 16px; margin: 0; }
+    .notification-item { padding: 13px 0; border-top: 1px solid #f0f2f7; font-size: 11px; line-height: 1.5; }
+    .notification-item.unread:before { content: ""; display: inline-block; width: 7px; height: 7px; background: var(--accent); border-radius: 50%; margin-right: 7px; }
+    .notification-item small { display: block; color: var(--muted); margin-top: 5px; }
+
+    .overlay { position: fixed; inset: 0; background: rgba(12, 22, 40, 0.35); z-index: 50; display: none; }
+    .overlay.show { display: block; }
+    .modal-root { position: fixed; inset: 0; background: rgba(15, 28, 51, 0.45); z-index: 80; display: grid; place-items: center; padding: 18px; overflow: auto; }
+    .modal-root[hidden] { display: none; }
+    .modal { width: min(620px, 100%); max-height: min(90vh, 850px); overflow: auto; background: #fff; border-radius: 17px; box-shadow: 0 25px 80px rgba(0, 0, 0, 0.2); }
+    .modal-head { display: flex; justify-content: space-between; align-items: center; padding: 18px 21px; border-bottom: 1px solid var(--line); }
+    .modal-head h3 { margin: 0; font-size: 15px; }
+    .modal-body { padding: 20px 21px; }
+    .modal-foot { display: flex; justify-content: flex-end; gap: 8px; padding: 14px 21px; border-top: 1px solid var(--line); }
+
+    .toasts { position: fixed; right: 20px; bottom: 20px; z-index: 100; display: grid; gap: 8px; }
+    .toast { background: #14233d; color: white; padding: 12px 15px; border-radius: 10px; box-shadow: var(--shadow); font-size: 11px; animation: toastIn 0.2s ease; max-width: 320px; }
+    .toast.error { background: #a83232; }
+    @keyframes toastIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .profile-preview { display: flex; align-items: center; gap: 12px; }
+    .muted-note { font-size: 10px; color: var(--muted); line-height: 1.5; }
+    .hidden { display: none !important; }
+
+    @media (max-width: 1100px) {
+      .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .cards-grid, .employee-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .dashboard-grid { grid-template-columns: 1fr; }
+      .content { padding: 22px; }
+    }
+    @media (max-width: 900px) {
+      .auth-shell { grid-template-columns: 1fr; }
+      .auth-hero { display: none; }
+    }
+    @media (max-width: 760px) {
+      :root { --sidebar: 260px; }
+      .sidebar { transform: translateX(-105%); box-shadow: 10px 0 35px rgba(0, 0, 0, 0.15); }
+      .sidebar.open { transform: translateX(0); }
+      .main { margin-left: 0; }
+      .menu-btn { display: inline-grid; }
+      .topbar { padding: 13px 15px; gap: 10px; min-height: 72px; }
+      .topbar h1 { font-size: 16px; }
+      .page-heading { min-width: 0; }
+      .topbar .muted { display: none; }
+      .search-wrap { width: 38px; padding: 0 10px; }
+      .search-wrap input { display: none; }
+      .search-wrap:focus-within { position: absolute; left: 60px; right: 125px; width: auto; background: #fff; z-index: 3; }
+      .search-wrap:focus-within input { display: block; }
+      .role-chip, .account-trigger-info { display: none; }
+      .account-trigger { padding: 4px; border-radius: 50%; }
+      .content { padding: 18px 14px; }
+      .welcome-row { align-items: flex-start; flex-direction: column; }
+      .welcome-row h2 { font-size: 19px; }
+      .stats-grid { gap: 9px; }
+      .stat-card { padding: 13px; }
+      .stat-value { font-size: 23px; }
+      .stat-note { font-size: 10px; }
+      .cards-grid, .employee-grid, .report-grid { grid-template-columns: 1fr; }
+      .form-grid { grid-template-columns: 1fr; }
+      .form-field.full { grid-column: auto; }
+      .panel { padding: 15px; }
+      .page-toolbar { align-items: stretch; }
+      .filters { width: 100%; }
+      .field-control { flex: 1; min-width: 0; }
+      .topbar-actions { gap: 7px; }
+      .toasts { left: 12px; right: 12px; bottom: 12px; }
+      .toast { max-width: none; }
+    }
+    @media (min-width: 761px) {
+      .overlay.show { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ================= LOGIN VIEW ================= -->
+  <div class="auth-shell" id="authScreen">
+    <section class="auth-hero">
+      <div class="auth-brand">
+        <div class="brand-mark">M4</div>
+        <div>
+          <p class="brand-name" style="font-size: 16px;">M4 Solutions</p>
+          <p class="brand-sub" style="color: #93a0bb;">Enterprise Resource & Workspace</p>
+        </div>
+      </div>
+
+      <div class="auth-hero-copy">
+        <span class="auth-pill">✦ Business Management Made Simple</span>
+        <h1>Run projects, people, and delivery in one calm workspace.</h1>
+        <p>Dedicated portals for leadership oversight and daily team execution—built with clarity, role-based access, and zero clutter.</p>
+
+        <div class="erp-preview-card">
+          <div class="erp-preview-top">
+            <span>M4 Solutions · Operations Suite</span>
+            <span style="color: #6ee7b7; font-weight: 600;">● Workspace Online</span>
+          </div>
+          <div class="erp-preview-bars">
+            <div class="erp-mini-stat">
+              <span>Projects</span>
+              <strong>Active</strong>
+            </div>
+            <div class="erp-mini-stat">
+              <span>Team Flow</span>
+              <strong>Synced</strong>
+            </div>
+            <div class="erp-mini-stat">
+              <span>Access</span>
+              <strong>Role-Based</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="auth-hero-foot">
+        © M4 Solutions · Internal Company Workspace
+      </div>
+    </section>
+
+    <section class="auth-main">
+      <div class="auth-card">
+        <h2>Welcome back</h2>
+        <p class="auth-sub" id="authPortalSubtitle">Sign in to the Founder & Leadership portal</p>
+
+        <div class="portal-tabs" role="tablist" aria-label="Login portal selection">
+          <button type="button" class="portal-tab active" data-portal="founder" id="tabFounder">
+            <svg viewBox="0 0 24 24"><path d="M12 2l3 7 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg>
+            Founder Portal
+          </button>
+          <button type="button" class="portal-tab" data-portal="employee" id="tabEmployee">
+            <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            Employee Portal
+          </button>
+        </div>
+
+        <form class="auth-form" id="loginForm" autocomplete="off">
+          <label class="form-field">
+            Email address
+            <input class="form-control" type="email" id="loginEmail" required placeholder="Enter your email" autocomplete="off">
+          </label>
+
+          <label class="form-field">
+            Password
+            <div class="password-wrap">
+              <input class="form-control" type="password" id="loginPassword" required placeholder="Enter your password" autocomplete="new-password">
+              <button type="button" class="pwd-toggle" id="toggleLoginPwd" aria-label="Show or hide password">
+                <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+          </label>
+
+          <div class="auth-row">
+            <label class="check-label">
+              <input type="checkbox" id="rememberMe" checked>
+              Keep me signed in
+            </label>
+            <button type="button" class="text-btn" id="forgotPwdBtn">Forgot password?</button>
+          </div>
+
+          <button type="submit" class="btn primary auth-submit" id="loginSubmitBtn">
+            Sign in as Founder
+          </button>
+        </form>
+      </div>
+    </section>
+  </div>
+
+  <!-- ================= WORKSPACE SHELL ================= -->
+  <div class="app hidden" id="appShell">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brand-mark">M4</div>
+        <div>
+          <p class="brand-name">M4 Solutions</p>
+          <p class="brand-sub" id="sidebarPortalLabel">Company Workspace</p>
+        </div>
+      </div>
+      <nav class="nav" id="sidebarNav" aria-label="Main navigation"></nav>
+      <div class="sidebar-user" id="sidebarUser" title="Account & Profile"></div>
+    </aside>
+
+    <div class="main">
+      <header class="topbar">
+        <button class="icon-btn menu-btn" id="menuBtn" type="button" aria-label="Open menu">
+          <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+        <div class="page-heading">
+          <h1 id="pageTitle">Dashboard</h1>
+          <p class="muted" id="pageSubtitle">Company overview</p>
+        </div>
+        <div class="topbar-actions">
+          <label class="search-wrap">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            <input id="globalSearch" type="search" placeholder="Search workspace..." aria-label="Search workspace">
+          </label>
+          <button class="icon-btn notification-button" id="notifyBtn" type="button" aria-label="Notifications">
+            <svg viewBox="0 0 24 24"><path d="M6 16V10a6 6 0 1 1 12 0v6l2 2H4l2-2z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>
+            <span class="badge-dot" id="notifyDot"></span>
+          </button>
+          <div class="role-chip" id="roleChip"></div>
+
+          <!-- Profile Photo & Account Menu -->
+          <div class="account-menu-wrap" id="accountMenuWrap">
+            <button class="account-trigger" id="accountMenuBtn" type="button" aria-haspopup="true" aria-expanded="false">
+              <div id="topbarAvatar"></div>
+              <div class="account-trigger-info">
+                <strong id="topbarUserName">User</strong>
+                <small id="topbarUserRole">Role</small>
+              </div>
+              <svg viewBox="0 0 24 24" style="width:14px;height:14px;color:var(--muted)"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+
+            <div class="account-dropdown" id="accountDropdown" hidden>
+              <div class="dropdown-header">
+                <strong id="dropUserName">User</strong>
+                <small id="dropUserEmail">user@m4solutions.in</small>
+              </div>
+              <button class="dropdown-item" type="button" data-action="profile">
+                <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                My Profile
+              </button>
+              <button class="dropdown-item" type="button" data-view="settings">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                Settings
+              </button>
+              <button class="dropdown-item" type="button" data-action="change-password">
+                <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                Change Password
+              </button>
+              <div class="dropdown-divider"></div>
+              <button class="dropdown-item danger" type="button" data-action="logout">
+                <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                Logout
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main class="content" id="content" tabindex="-1"></main>
+    </div>
+  </div>
+
+  <!-- Overlays, Drawer, Modal & Toasts -->
+  <div class="overlay" id="overlay"></div>
+  <aside class="drawer" id="notifyDrawer" aria-label="Notifications">
+    <div class="drawer-head">
+      <h3>Notifications</h3>
+      <button class="text-btn" id="markAllRead" type="button">Mark all read</button>
+    </div>
+    <div id="notifyList"></div>
+  </aside>
+
+  <div class="modal-root" id="modalRoot" hidden>
+    <section class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-head">
+        <h3 id="modalTitle">Dialog</h3>
+        <button class="icon-btn" id="modalClose" type="button" aria-label="Close">
+          <svg viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+      <div class="modal-foot" id="modalFoot"></div>
+    </section>
+  </div>
+
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+
+  <script src="api-sync.js"></script>
+  <script>
+    (() => {
+      "use strict";
+      const STORAGE_KEY = "m4.workspace.v3";
+
+      const FOUNDER_VIEWS = [
+        ["dashboard", "Dashboard", "Company overview & approvals"],
+        ["projects", "Projects", "Create and manage company projects"],
+        ["tasks", "Task Board", "Assign tasks and review submissions"],
+        ["employees", "Employees", "Manage people, roles and credentials"],
+        ["meetings", "Meetings", "Team schedule and meeting notes"],
+        ["communication", "Communication", "Company announcements and updates"],
+        ["documents", "Documents", "Shared company files"],
+        ["reports", "Reports", "Progress, delivery and workload insights"],
+        ["settings", "Settings", "Workspace & account preferences"]
+      ];
+
+      const EMPLOYEE_VIEWS = [
+        ["dashboard", "My Dashboard", "Assigned work, progress & updates"],
+        ["tasks", "My Tasks", "Update progress & submit completed work"],
+        ["projects", "Assigned Projects", "Projects you are collaborating on"],
+        ["meetings", "Meetings", "Upcoming syncs and team sessions"],
+        ["communication", "Announcements", "Company updates and team feed"],
+        ["documents", "Documents", "Shared project resources"],
+        ["settings", "Profile & Settings", "Personal profile & security"]
+      ];
+
+      const STATUS = [
+        ["todo", "To Do"],
+        ["progress", "In Progress"],
+        ["review", "In Review"],
+        ["completed", "Completed"],
+        ["changes", "Changes Requested"]
+      ];
+
+      const ICONS = {
+        dashboard: "M3 10.5 12 3l9 7.5V21H3zM9 21v-7h6v7",
+        projects: "M3 7h18v14H3zM8 7V4h8v3",
+        tasks: "M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01",
+        employees: "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM22 21v-2a4 4 0 0 0-3-3.87",
+        meetings: "M8 3v4m8-4v4M4 10h16M5 5h14a1 1 0 0 1 1 1v14H4V6a1 1 0 0 1 1-1z",
+        communication: "M4 5h16v11H8l-4 4z",
+        documents: "M6 3h8l5 5v13H6zM14 3v5h5",
+        reports: "M4 20h16M7 16V9m5 7V4m5 12V7",
+        settings: "M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM4 12l2-1 1-3 3-1 2-2 2 2 3 1 1 3 2 1-2 2-1 3-3 1-2 2-2-2-3-1-1-3z"
+      };
+
+      const $ = id => document.getElementById(id);
+      const el = {
+        authScreen: $("authScreen"),
+        appShell: $("appShell"),
+        tabFounder: $("tabFounder"),
+        tabEmployee: $("tabEmployee"),
+        authPortalSubtitle: $("authPortalSubtitle"),
+        loginForm: $("loginForm"),
+        loginEmail: $("loginEmail"),
+        loginPassword: $("loginPassword"),
+        toggleLoginPwd: $("toggleLoginPwd"),
+        forgotPwdBtn: $("forgotPwdBtn"),
+        loginSubmitBtn: $("loginSubmitBtn"),
+        sidebar: $("sidebar"),
+        sidebarPortalLabel: $("sidebarPortalLabel"),
+        nav: $("sidebarNav"),
+        sidebarUser: $("sidebarUser"),
+        content: $("content"),
+        pageTitle: $("pageTitle"),
+        pageSubtitle: $("pageSubtitle"),
+        roleChip: $("roleChip"),
+        menuBtn: $("menuBtn"),
+        overlay: $("overlay"),
+        modalRoot: $("modalRoot"),
+        modalTitle: $("modalTitle"),
+        modalBody: $("modalBody"),
+        modalFoot: $("modalFoot"),
+        modalClose: $("modalClose"),
+        toasts: $("toasts"),
+        notifyBtn: $("notifyBtn"),
+        notifyDot: $("notifyDot"),
+        notifyDrawer: $("notifyDrawer"),
+        notifyList: $("notifyList"),
+        markAllRead: $("markAllRead"),
+        globalSearch: $("globalSearch"),
+        accountMenuBtn: $("accountMenuBtn"),
+        accountDropdown: $("accountDropdown"),
+        topbarAvatar: $("topbarAvatar"),
+        topbarUserName: $("topbarUserName"),
+        topbarUserRole: $("topbarUserRole"),
+        dropUserName: $("dropUserName"),
+        dropUserEmail: $("dropUserEmail")
+      };
+
+      let db, view = "dashboard", searchQuery = "", modalSave = null, loginPortal = "founder";
+
+      const uid = p => p + "-" + Math.random().toString(36).slice(2, 9) + Date.now().toString(36).slice(-4);
+      const iso = (offset = 0) => {
+        const d = new Date();
+        d.setDate(d.getDate() + offset);
+        return [d.getFullYear(), String(d.getMonth() + 1).padStart(2, "0"), String(d.getDate()).padStart(2, "0")].join("-");
+      };
+      const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+      const initials = name => String(name || "?").split(/\s+/).slice(0, 2).map(x => x[0] || "").join("").toUpperCase();
+      const avatar = (person, size = "") => `<div class="avatar ${size}">${person?.photo ? `<img src="${person.photo}" alt="">` : esc(initials(person?.name))}</div>`;
+      const dateLabel = d => d ? new Date(d + "T00:00:00").toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }) : "No date";
+      const ago = d => {
+        const diff = Math.max(0, Date.now() - new Date(d).getTime());
+        const h = Math.floor(diff / 36e5);
+        return h < 1 ? "Just now" : h < 24 ? `${h}h ago` : `${Math.floor(h / 24)}d ago`;
+      };
+      const statusLabel = s => STATUS.find(x => x[0] === s)?.[1] || s;
+      const person = id => db.employees.find(x => x.id === id) || { name: "Unassigned", photo: "", roleTitle: "" };
+      const project = id => db.projects.find(x => x.id === id) || { name: "Unassigned" };
+      const current = () => db.employees.find(x => x.id === db.currentUserId) || null;
+      const isFounder = () => current()?.appRole === "founder";
+      const canLead = () => ["founder", "teamlead"].includes(current()?.appRole);
+
+      const seed = () => ({
+        employees: [
+          {
+            id: "e-founder",
+            name: "Manidhar Yadav",
+            email: "manidharyadav54@gmail.com",
+            password: "mani3590",
+            phone: "",
+            department: "Leadership",
+            roleTitle: "Founder",
+            appRole: "founder",
+            active: true,
+            photo: "",
+            joined: iso()
+          }
+        ],
+        projects: [],
+        tasks: [],
+        meetings: [],
+        messages: [],
+        documents: [],
+        notifications: [],
+        currentUserId: null,
+        company: { name: "M4 Solutions", timezone: "Asia/Kolkata" }
+      });
+
+      function load() {
+        try {
+          db = JSON.parse(localStorage.getItem(STORAGE_KEY));
+          if (!db || !Array.isArray(db.employees) || !db.employees.length) throw 0;
+          ["projects", "tasks", "meetings", "messages", "documents", "notifications"].forEach(k => {
+            if (!Array.isArray(db[k])) db[k] = [];
+          });
+        } catch {
+          db = seed();
+          save();
+        }
+      }
+
+      function save() {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
+        } catch (e) {
+          toast("Storage is full. Try removing large uploaded files.", "error");
+        }
+      }
+
+      function toast(msg, type = "") {
+        const n = document.createElement("div");
+        n.className = "toast " + type;
+        n.textContent = msg;
+        el.toasts.append(n);
+        setTimeout(() => n.remove(), 3400);
+      }
+
+      function addNotification(text) {
+        db.notifications.unshift({ id: uid("n"), text, read: false, createdAt: new Date().toISOString() });
+        save();
+        if (current()) renderNotifications();
+      }
+
+      /* ================= AUTHENTICATION & PORTAL SWITCHING ================= */
+      function setLoginPortal(portal) {
+        loginPortal = portal;
+        el.tabFounder.classList.toggle("active", portal === "founder");
+        el.tabEmployee.classList.toggle("active", portal === "employee");
+
+        if (portal === "founder") {
+          el.authPortalSubtitle.textContent = "Sign in to the Founder & Leadership portal";
+          el.loginSubmitBtn.textContent = "Sign in as Founder";
+        } else {
+          el.authPortalSubtitle.textContent = "Sign in to the Employee Workspace portal";
+          el.loginSubmitBtn.textContent = "Sign in as Employee";
+        }
+      }
+
+      function syncAuthScreen() {
+        const user = current();
+        if (!user) {
+          el.authScreen.classList.remove("hidden");
+          el.appShell.classList.add("hidden");
+          el.loginEmail.value = "";
+          el.loginPassword.value = "";
+          setLoginPortal(loginPortal);
+        } else {
+          el.authScreen.classList.add("hidden");
+          el.appShell.classList.remove("hidden");
+          render();
+        }
+      }
+
+      function logout() {
+        closeAccountMenu();
+        closePanels();
+        db.currentUserId = null;
+        view = "dashboard";
+        searchQuery = "";
+        el.globalSearch.value = "";
+        save();
+        syncAuthScreen();
+        toast("Signed out of M4 Solutions.");
+      }
+
+      function forgotPasswordModal() {
+        openModal(
+          "Reset your password",
+          `<form id="forgotForm">
+            <p class="muted" style="margin-top:0;margin-bottom:14px">Enter your registered M4 Solutions email address to set a new password.</p>
+            <div class="form-grid">
+              <label class="form-field full">Registered email
+                <input class="form-control" type="email" name="email" required placeholder="Enter your registered email">
+              </label>
+              <label class="form-field full">New password
+                <input class="form-control" type="password" name="newPwd" required minlength="6" placeholder="Minimum 6 characters">
+              </label>
+            </div>
+          </form>`,
+          "Reset password",
+          () => {
+            const f = $("forgotForm");
+            if (!f.reportValidity()) return;
+            const fd = new FormData(f);
+            const email = fd.get("email").trim().toLowerCase();
+            const newPwd = fd.get("newPwd");
+            const emp = db.employees.find(e => e.email.toLowerCase() === email);
+            if (!emp) return toast("No account found with that email address.", "error");
+            emp.password = newPwd;
+            save();
+            closeModal();
+            toast("Password updated. Please sign in with your new password.");
+          }
+        );
+      }
+
+      function changePasswordModal() {
+        const u = current();
+        if (!u) return;
+        openModal(
+          "Change password",
+          `<form id="changePwdForm">
+            <div class="form-grid">
+              <label class="form-field full">Current password
+                <input class="form-control" type="password" name="currentPwd" required placeholder="Enter current password">
+              </label>
+              <label class="form-field">New password
+                <input class="form-control" type="password" name="newPwd" required minlength="6" placeholder="At least 6 characters">
+              </label>
+              <label class="form-field">Confirm new password
+                <input class="form-control" type="password" name="confirmPwd" required minlength="6" placeholder="Repeat new password">
+              </label>
+            </div>
+          </form>`,
+          "Update password",
+          () => {
+            const f = $("changePwdForm");
+            if (!f.reportValidity()) return;
+            const fd = new FormData(f);
+            if (fd.get("currentPwd") !== u.password) {
+              return toast("Current password is incorrect.", "error");
+            }
+            if (fd.get("newPwd") !== fd.get("confirmPwd")) {
+              return toast("New passwords do not match.", "error");
+            }
+            u.password = fd.get("newPwd");
+            save();
+            closeModal();
+            toast("Password updated successfully.");
+          }
+        );
+      }
+
+      /* ================= SHELL & NAVIGATION ================= */
+      function navIcon(key) {
+        return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${ICONS[key] || ICONS.dashboard}"/></svg>`;
+      }
+
+      function renderShell() {
+        const u = current();
+        const navItems = isFounder() ? FOUNDER_VIEWS : EMPLOYEE_VIEWS;
+        if (!navItems.some(v => v[0] === view)) view = "dashboard";
+
+        el.sidebarPortalLabel.textContent = isFounder() ? "Founder Console" : "Employee Portal";
+        el.nav.innerHTML = navItems.map(([key, label]) => `
+          <button class="nav-btn ${view === key ? "active" : ""}" data-view="${key}">
+            ${navIcon(key)}<span>${label}</span>
+          </button>
+        `).join("");
+
+        el.sidebarUser.innerHTML = `
+          ${avatar(u)}
+          <div class="user-meta">
+            <strong>${esc(u.name)}</strong>
+            <small>${esc(u.roleTitle)}</small>
+          </div>
+          <span style="color:#9eabc4;font-size:12px">⋮</span>
+        `;
+
+        el.roleChip.textContent = u.appRole === "founder" ? "Founder" : u.appRole === "teamlead" ? "Team Lead" : "Employee";
+        el.topbarAvatar.innerHTML = avatar(u, "sm");
+        el.topbarUserName.textContent = u.name;
+        el.topbarUserRole.textContent = u.roleTitle;
+        el.dropUserName.textContent = u.name;
+        el.dropUserEmail.textContent = u.email;
+
+        const meta = navItems.find(v => v[0] === view) || navItems[0];
+        el.pageTitle.textContent = meta[1];
+        el.pageSubtitle.textContent = meta[2];
+        renderNotifications();
+      }
+
+      function pageHead(title, desc, action = "") {
+        return `<div class="welcome-row"><div><h2>${title}</h2><p>${desc}</p></div><div class="actions">${action}</div></div>`;
+      }
+      function button(label, action, kind = "") {
+        return `<button class="btn ${kind}" data-action="${action}">${label}</button>`;
+      }
+      function stat(label, value, note, icon, colour = "") {
+        return `<div class="stat-card"><div class="stat-top"><span>${label}</span><span class="stat-icon ${colour}">${icon}</span></div><div class="stat-value">${value}</div><div class="stat-note">${note}</div></div>`;
+      }
+      function statusPill(s) {
+        return `<span class="status ${s}">${esc(statusLabel(s))}</span>`;
+      }
+      function priorityPill(p) {
+        return `<span class="priority ${p}">${esc(p)} priority</span>`;
+      }
+
+      function taskRows(tasks, interactive = false) {
+        if (!tasks.length) {
+          return `<div class="empty-state"><strong>No tasks yet</strong><p>Tasks will appear here once created and assigned.</p></div>`;
+        }
+        return `<div class="task-list">${tasks.map(t => `
+          <div class="task-row">
+            <div class="task-main">
+              <strong>${esc(t.title)}</strong>
+              <small>${esc(project(t.projectId).name)} · ${esc(person(t.assigneeId).name)} · Progress ${t.progress || 0}%</small>
+            </div>
+            <div class="task-end">
+              ${statusPill(t.status)}
+              <div style="display:flex;align-items:center;gap:8px">
+                <small class="muted">${dateLabel(t.deadline)}</small>
+                ${interactive ? `<button class="text-btn" data-action="view-task" data-id="${t.id}">Open</button>` : ""}
+              </div>
+            </div>
+          </div>
+        `).join("")}</div>`;
+      }
+
+      function activity() {
+        return db.messages.slice(0, 5).map(m => `
+          <div class="activity-item">
+            ${avatar(person(m.authorId), "sm")}
+            <div>
+              <p><b>${esc(person(m.authorId).name)}</b> <span class="message-type" style="margin-left:4px">${esc(m.type)}</span> ${esc(m.body)}</p>
+              <small>${ago(m.createdAt)}</small>
+            </div>
+          </div>
+        `).join("") || `<p class="muted" style="font-size:12px">No updates posted yet.</p>`;
+      }
+
+      function meetingRows(list) {
+        return list.length ? list.map(m => `
+          <div class="meeting-row">
+            <div class="date-tile">
+              <b>${new Date(m.date + "T00:00:00").getDate()}</b>
+              <small>${new Date(m.date + "T00:00:00").toLocaleDateString("en", { month: "short" })}</small>
+            </div>
+            <div class="row-grow">
+              <strong>${esc(m.title)}</strong>
+              <p>${esc(m.time)} · ${m.attendees.length} attendees${m.notes ? " · " + esc(m.notes) : ""}</p>
+            </div>
+          </div>
+        `).join("") : `<div class="empty-state"><strong>No upcoming meetings</strong><p>Scheduled sessions will appear here.</p></div>`;
+      }
+
+      /* ================= TWO SEPARATE DASHBOARDS ================= */
+      function founderDashboard() {
+        const activeProjects = db.projects.filter(p => p.status === "active");
+        const completedTasks = db.tasks.filter(t => t.status === "completed").length;
+        const pendingReviews = db.tasks.filter(t => t.status === "review");
+        const greeting = new Date().getHours() < 12 ? "morning" : new Date().getHours() < 17 ? "afternoon" : "evening";
+
+        return `
+          ${pageHead(
+            `Good ${greeting}, ${esc(current().name.split(" ")[0])} 👋`,
+            "Company overview, employee management, project creation and submission approvals.",
+            `${button("+ Add employee", "new-employee", "soft")}${button("+ New project", "new-project", "soft")}${button("+ Assign task", "new-task", "primary")}`
+          )}
+
+          <section class="stats-grid">
+            ${stat("Active employees", db.employees.filter(e => e.active).length, `${db.employees.length} total members`, "♙", "blue")}
+            ${stat("Active projects", activeProjects.length, `${db.projects.length} total projects`, "▦")}
+            ${stat("Pending reviews", pendingReviews.length, "Submissions awaiting approval", "◷", "orange")}
+            ${stat("Tasks completed", completedTasks, `Out of ${db.tasks.length} company tasks`, "✓", "green")}
+          </section>
+
+          <div class="dashboard-grid">
+            <div>
+              <section class="panel">
+                <div class="panel-head">
+                  <div>
+                    <h3>Submissions awaiting review</h3>
+                    <p>Review completed work submitted by your team</p>
+                  </div>
+                  <button class="text-btn" data-view="tasks">Task board</button>
+                </div>
+                ${pendingReviews.length
+                  ? taskRows(pendingReviews, true)
+                  : `<div class="empty-state" style="padding:20px 10px"><strong>No pending reviews</strong><p style="margin:0">Completed employee submissions will appear here for approval.</p></div>`
+                }
+              </section>
+
+              <section class="panel">
+                <div class="panel-head">
+                  <div>
+                    <h3>Company project progress</h3>
+                    <p>Completion status across active initiatives</p>
+                  </div>
+                  <button class="text-btn" data-view="projects">Manage projects</button>
+                </div>
+                ${activeProjects.length ? activeProjects.map(p => {
+                  const pt = db.tasks.filter(t => t.projectId === p.id);
+                  const pct = pt.length ? Math.round(pt.filter(t => t.status === "completed").length / pt.length * 100) : 0;
+                  return `
+                    <div class="project-item">
+                      <div class="project-item-head">
+                        <strong>${esc(p.name)}</strong>
+                        <small>${pt.length} tasks · Due ${dateLabel(p.deadline)}</small>
+                      </div>
+                      <div class="project-progress">
+                        <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
+                        <small>${pct}%</small>
+                      </div>
+                    </div>
+                  `;
+                }).join("") : `<div class="empty-state" style="padding:20px 10px"><strong>No projects created yet</strong><p style="margin:0">Click "+ New project" to start organizing company work.</p></div>`}
+              </section>
+            </div>
+
+            <div>
+              <section class="panel">
+                <div class="panel-head">
+                  <div>
+                    <h3>Team directory</h3>
+                    <p>Active members in your workspace</p>
+                  </div>
+                  <button class="text-btn" data-view="employees">Manage all</button>
+                </div>
+                <div class="task-list">
+                  ${db.employees.slice(0, 5).map(e => `
+                    <div class="task-row">
+                      ${avatar(e, "sm")}
+                      <div class="task-main">
+                        <strong>${esc(e.name)}</strong>
+                        <small>${esc(e.roleTitle)} · ${esc(e.department)}</small>
+                      </div>
+                      <span class="status ${e.active ? "completed" : "todo"}">${e.active ? "Active" : "Inactive"}</span>
+                    </div>
+                  `).join("")}
+                </div>
+              </section>
+
+              <section class="panel">
+                <div class="panel-head">
+                  <div>
+                    <h3>Announcements & updates</h3>
+                    <p>Company-wide communication feed</p>
+                  </div>
+                  <button class="text-btn" data-action="new-message">+ Post</button>
+                </div>
+                <div class="activity-list">${activity()}</div>
+              </section>
+            </div>
+          </div>
+        `;
+      }
+
+      function employeeDashboard() {
+        const me = current();
+        const myTasks = db.tasks.filter(t => t.assigneeId === me.id);
+        const myProjects = db.projects.filter(p => p.memberIds.includes(me.id));
+        const inProgress = myTasks.filter(t => ["progress", "todo", "changes"].includes(t.status)).length;
+        const completed = myTasks.filter(t => t.status === "completed").length;
+        const inReview = myTasks.filter(t => t.status === "review").length;
+        const greeting = new Date().getHours() < 12 ? "morning" : new Date().getHours() < 17 ? "afternoon" : "evening";
+
+        return `
+          ${pageHead(
+            `Good ${greeting}, ${esc(me.name.split(" ")[0])} 👋`,
+            "Track your assigned tasks, update work progress and submit completed work.",
+            `${button("My Profile", "profile", "soft")}${button("Open My Tasks", "go-my-tasks", "primary")}`
+          )}
+
+          <section class="stats-grid">
+            ${stat("My assigned tasks", myTasks.length, `${inProgress} active in queue`, "▤", "blue")}
+            ${stat("Assigned projects", myProjects.length, "Active team collaborations", "▦")}
+            ${stat("Submitted for review", inReview, "Awaiting founder approval", "◷", "orange")}
+            ${stat("Completed tasks", completed, "Approved deliverables", "✓", "green")}
+          </section>
+
+          <div class="dashboard-grid">
+            <div>
+              <section class="panel">
+                <div class="panel-head">
+                  <div>
+                    <h3>My tasks & deliverables</h3>
+                    <p>Click Open to update progress or submit completed work</p>
+                  </div>
+                  <button class="text-btn" data-view="tasks">Full task board</button>
+                </div>
+                ${taskRows([...myTasks].sort((a, b) => a.deadline.localeCompare(b.deadline)), true)}
+              </section>
+
+              <section class="panel">
+                <div class="panel-head">
+                  <div>
+                    <h3>Assigned projects</h3>
+                    <p>Projects you are contributing to</p>
+                  </div>
+                  <button class="text-btn" data-view="projects">View details</button>
+                </div>
+                ${myProjects.length ? myProjects.map(p => {
+                  const pt = db.tasks.filter(t => t.projectId === p.id);
+                  const pct = pt.length ? Math.round(pt.filter(t => t.status === "completed").length / pt.length * 100) : 0;
+                  return `
+                    <div class="project-item">
+                      <div class="project-item-head">
+                        <strong>${esc(p.name)}</strong>
+                        <small>Due ${dateLabel(p.deadline)}</small>
+                      </div>
+                      <div class="project-progress">
+                        <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
+                        <small>${pct}%</small>
+                      </div>
+                    </div>
+                  `;
+                }).join("") : `<div class="empty-state" style="padding:20px"><strong>No assigned projects</strong></div>`}
+              </section>
+            </div>
+
+            <div>
+              <section class="panel">
+                <div class="panel-head">
+                  <div>
+                    <h3>Upcoming meetings</h3>
+                    <p>Team syncs on your schedule</p>
+                  </div>
+                  <button class="text-btn" data-view="meetings">All meetings</button>
+                </div>
+                ${meetingRows(db.meetings.filter(m => m.date >= iso() && m.attendees.includes(me.id)).slice(0, 3))}
+              </section>
+
+              <section class="panel">
+                <div class="panel-head">
+                  <div>
+                    <h3>Company announcements</h3>
+                    <p>Latest updates from leadership & team</p>
+                  </div>
+                  <button class="text-btn" data-view="communication">Open feed</button>
+                </div>
+                <div class="activity-list">${activity()}</div>
+              </section>
+            </div>
+          </div>
+        `;
+      }
+
+      function dashboard() {
+        return isFounder() ? founderDashboard() : employeeDashboard();
+      }
+
+      /* ================= SUB-PAGES ================= */
+      function projectsPage() {
+        const list = isFounder()
+          ? db.projects
+          : db.projects.filter(p => p.memberIds.includes(current().id));
+
+        return `
+          ${pageHead(
+            isFounder() ? "Projects" : "Assigned Projects",
+            isFounder() ? "Create and organise work into clear project spaces." : "Projects assigned to your workspace.",
+            canLead() ? button("+ New project", "new-project", "primary") : ""
+          )}
+          <div class="cards-grid">
+            ${list.map(p => {
+              const tasks = db.tasks.filter(t => t.projectId === p.id);
+              const pct = tasks.length ? Math.round(tasks.filter(t => t.status === "completed").length / tasks.length * 100) : 0;
+              return `
+                <article class="project-card">
+                  <div class="panel-head">
+                    <span class="message-type">${esc(p.status)}</span>
+                    ${canLead() ? `<button class="text-btn" data-action="edit-project" data-id="${p.id}">Edit</button>` : ""}
+                  </div>
+                  <h3>${esc(p.name)}</h3>
+                  <p>${esc(p.description)}</p>
+                  <div class="project-progress">
+                    <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
+                    <small>${pct}%</small>
+                  </div>
+                  <div class="card-meta">
+                    <span>${tasks.length} tasks</span>
+                    <span>Due ${dateLabel(p.deadline)}</span>
+                  </div>
+                  <div class="member-stack">
+                    ${p.memberIds.slice(0, 5).map(id => avatar(person(id), "sm")).join("")}
+                  </div>
+                </article>
+              `;
+            }).join("") || `<div class="empty-state" style="grid-column:1/-1"><strong>No projects found</strong><p>Projects will appear here once created.</p></div>`}
+          </div>
+        `;
+      }
+
+      function visibleTasks() {
+        return canLead() ? db.tasks : db.tasks.filter(t => t.assigneeId === current().id);
+      }
+
+      function tasksPage() {
+        let tasks = visibleTasks();
+        if (searchQuery) {
+          tasks = tasks.filter(t => (t.title + " " + t.description).toLowerCase().includes(searchQuery));
+        }
+
+        return `
+          ${pageHead(
+            canLead() ? "Task management & reviews" : "My tasks",
+            canLead() ? "Assign work, review submissions and track delivery." : "Update progress and submit completed work for review.",
+            canLead() ? button("+ Assign task", "new-task", "primary") : ""
+          )}
+          <div class="page-toolbar">
+            <div class="filters">
+              <select class="field-control" id="taskStatusFilter">
+                <option value="">All statuses</option>
+                ${STATUS.map(s => `<option value="${s[0]}">${s[1]}</option>`).join("")}
+              </select>
+              <select class="field-control" id="taskProjectFilter">
+                <option value="">All projects</option>
+                ${db.projects.map(p => `<option value="${p.id}">${esc(p.name)}</option>`).join("")}
+              </select>
+            </div>
+            <span class="muted">${tasks.length} tasks</span>
+          </div>
+          <div class="kanban">
+            ${STATUS.map(([s, label]) => {
+              const col = tasks.filter(t => t.status === s);
+              return `
+                <section class="kanban-col">
+                  <div class="kanban-head">
+                    <span>${label}</span>
+                    <span class="kanban-count">${col.length}</span>
+                  </div>
+                  ${col.map(t => `
+                    <article class="kanban-card">
+                      <div>${priorityPill(t.priority)}</div>
+                      <h4>${esc(t.title)}</h4>
+                      <p>${esc(project(t.projectId).name)} · Due ${dateLabel(t.deadline)}</p>
+                      <div class="kanban-foot">
+                        ${avatar(person(t.assigneeId), "sm")}
+                        <button class="text-btn" data-action="view-task" data-id="${t.id}">
+                          ${t.status === "review" && canLead() ? "Review →" : t.assigneeId === current().id ? "Update →" : "Open →"}
+                        </button>
+                      </div>
+                    </article>
+                  `).join("") || `<p class="muted" style="font-size:11px">No tasks</p>`}
+                </section>
+              `;
+            }).join("")}
+          </div>
+        `;
+      }
+
+      function employeesPage() {
+        let list = db.employees;
+        if (searchQuery) {
+          list = list.filter(e => (e.name + " " + e.email + " " + e.department).toLowerCase().includes(searchQuery));
+        }
+
+        return `
+          ${pageHead(
+            "People & employees",
+            "Add employees, assign login credentials, and manage team roles.",
+            isFounder() ? button("+ Add employee", "new-employee", "primary") : ""
+          )}
+          <div class="page-toolbar">
+            <div class="filters">
+              <select class="field-control" id="employeeDept">
+                <option value="">All departments</option>
+                ${[...new Set(db.employees.map(e => e.department))].map(d => `<option>${esc(d)}</option>`).join("")}
+              </select>
+              <select class="field-control" id="employeeActive">
+                <option value="">All members</option>
+                <option value="true">Active</option>
+                <option value="false">Inactive</option>
+              </select>
+            </div>
+            <span class="muted">${list.length} members</span>
+          </div>
+          <div class="employee-grid">
+            ${list.map(e => `
+              <article class="employee-card">
+                <div class="employee-top">
+                  ${avatar(e, "lg")}
+                  <div>
+                    <h3>${esc(e.name)}</h3>
+                    <p>${esc(e.roleTitle)} · ${esc(e.department)}</p>
+                  </div>
+                </div>
+                <div class="employee-details">
+                  <span>✉ ${esc(e.email)}</span>
+                  <span>☎ ${esc(e.phone || "Not added")}</span>
+                  <span>Joined ${dateLabel(e.joined)}</span>
+                </div>
+                <div class="employee-card-foot">
+                  <span class="status ${e.active ? "completed" : "todo"}">${e.active ? "Active" : "Inactive"}</span>
+                  ${isFounder() ? `<button class="text-btn" data-action="edit-employee" data-id="${e.id}">Manage</button>` : ""}
+                </div>
+              </article>
+            `).join("")}
+          </div>
+        `;
+      }
+
+      function meetingsPage() {
+        const list = isFounder()
+          ? db.meetings
+          : db.meetings.filter(m => m.attendees.includes(current().id));
+
+        return `
+          ${pageHead(
+            "Meetings",
+            "Keep team syncs and reviews organised.",
+            canLead() ? button("+ Schedule meeting", "new-meeting", "primary") : ""
+          )}
+          <section class="panel">
+            ${meetingRows([...list].sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time)))}
+          </section>
+        `;
+      }
+
+      function communicationPage() {
+        return `
+          ${pageHead(
+            isFounder() ? "Communication" : "Announcements & Updates",
+            "Announcements and updates for the whole team.",
+            button("+ New update", "new-message", "primary")
+          )}
+          <section class="panel">
+            <div class="panel-head">
+              <div>
+                <h3>Team feed</h3>
+                <p>Latest company conversations</p>
+              </div>
+            </div>
+            ${db.messages.map(m => `
+              <div class="message-card">
+                ${avatar(person(m.authorId))}
+                <div class="message-body">
+                  <div class="message-meta">
+                    <strong>${esc(person(m.authorId).name)}</strong>
+                    <small>${ago(m.createdAt)}</small>
+                  </div>
+                  <span class="message-type">${esc(m.type)}</span>
+                  <p>${esc(m.body)}</p>
+                </div>
+              </div>
+            `).join("") || `<div class="empty-state"><strong>No announcements yet</strong><p>Post an update to notify your team.</p></div>`}
+          </section>
+        `;
+      }
+
+      function documentsPage() {
+        return `
+          ${pageHead(
+            "Documents",
+            "Shared files and project resources.",
+            button("+ Upload document", "new-document", "primary")
+          )}
+          <section class="panel">
+            ${db.documents.map(d => `
+              <div class="document-row">
+                <div class="stat-icon blue">▤</div>
+                <div class="row-grow">
+                  <strong>${esc(d.name)}</strong>
+                  <p>${esc(project(d.projectId).name)} · ${esc(d.size || "File")}</p>
+                </div>
+                <a class="btn small" href="${d.dataUrl}" download="${esc(d.name)}">Download</a>
+                ${isFounder() || d.uploadedBy === current().id ? `<button class="btn small danger" data-action="delete-document" data-id="${d.id}">Delete</button>` : ""}
+              </div>
+            `).join("") || `<div class="empty-state"><strong>No documents uploaded</strong><p>Upload a file to share it with the team.</p></div>`}
+          </section>
+          <p class="muted-note">Files are stored in this browser's local storage for this workspace. Avoid uploading sensitive documents.</p>
+        `;
+      }
+
+      function reportsPage() {
+        const total = db.tasks.length;
+        const completed = db.tasks.filter(t => t.status === "completed").length;
+        const overdue = db.tasks.filter(t => t.deadline < iso() && t.status !== "completed").length;
+
+        return `
+          ${pageHead(
+            "Reports & insights",
+            "A quick view of work delivery and team progress.",
+            button("Export CSV", "export-report", "soft")
+          )}
+          <div class="stats-grid">
+            ${stat("Total tasks", total, "Across all projects", "▤")}
+            ${stat("Completed", completed, `${total ? Math.round(completed / total * 100) : 0}% completion rate`, "✓", "green")}
+            ${stat("In review", db.tasks.filter(t => t.status === "review").length, "Awaiting approval", "◷", "orange")}
+            ${stat("Overdue", overdue, "Past their deadline", "!", "blue")}
+          </div>
+          <div class="report-grid">
+            <section class="panel">
+              <div class="panel-head">
+                <div><h3>Task status</h3><p>Distribution across the workspace</p></div>
+              </div>
+              <div class="chart-bars">
+                ${STATUS.map(([s, l]) => {
+                  const n = db.tasks.filter(t => t.status === s).length;
+                  return `<div class="chart-col"><div class="chart-bar" style="height:${Math.max(5, total ? n / total * 125 : 5)}px"></div><b>${n}</b><span>${l}</span></div>`;
+                }).join("")}
+              </div>
+            </section>
+            <section class="panel">
+              <div class="panel-head">
+                <div><h3>Employee workload</h3><p>Assigned tasks by team member</p></div>
+              </div>
+              ${db.employees.filter(e => e.active).map(e => {
+                const n = db.tasks.filter(t => t.assigneeId === e.id).length;
+                return `
+                  <div class="project-item">
+                    <div class="project-item-head"><strong>${esc(e.name)}</strong><small>${n} tasks</small></div>
+                    <div class="project-progress"><div class="progress-track"><div class="progress-fill" style="width:${Math.min(100, n * 20)}%"></div></div></div>
+                  </div>
+                `;
+              }).join("")}
+            </section>
+          </div>
+        `;
+      }
+
+      function settingsPage() {
+        const u = current();
+        return `
+          ${pageHead("Profile & Settings", "Manage your personal profile, password and account controls.")}
+          <div class="report-grid">
+            <section class="panel">
+              <div class="panel-head">
+                <div><h3>Personal profile</h3><p>Update the details and photo shown across the workspace</p></div>
+              </div>
+              <div class="profile-preview">
+                ${avatar(u, "lg")}
+                <div>
+                  <strong>${esc(u.name)}</strong>
+                  <p class="muted" style="margin:3px 0">${esc(u.roleTitle)} · ${esc(u.department)}</p>
+                  <p class="muted" style="margin:0">${esc(u.email)}</p>
+                </div>
+              </div>
+              <div class="actions" style="margin-top:18px">
+                ${button("Edit Profile", "profile", "primary")}
+                ${button("Change Password", "change-password", "soft")}
+              </div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head">
+                <div><h3>Session & account</h3><p>Manage your current workspace login session</p></div>
+              </div>
+              <p class="muted" style="margin-top:0;line-height:1.6">
+                Signed in as <strong>${esc(u.name)}</strong> (${u.appRole === "founder" ? "Founder Portal" : "Employee Portal"}).
+              </p>
+              <div class="actions" style="margin-top:16px">
+                ${button("Logout", "logout", "danger")}
+              </div>
+            </section>
+
+            ${isFounder() ? `
+              <section class="panel" style="grid-column: 1 / -1">
+                <div class="panel-head">
+                  <div><h3>Workspace data management</h3><p>Export a JSON backup or reset workspace data</p></div>
+                </div>
+                <div class="actions">
+                  ${button("Export JSON backup", "export-json", "soft")}
+                  ${button("Reset workspace data", "reset-data", "danger")}
+                </div>
+              </section>
+            ` : ""}
+          </div>
+        `;
+      }
+
+      const renderers = {
+        dashboard,
+        projects: projectsPage,
+        tasks: tasksPage,
+        employees: employeesPage,
+        meetings: meetingsPage,
+        communication: communicationPage,
+        documents: documentsPage,
+        reports: reportsPage,
+        settings: settingsPage
+      };
+
+      function render() {
+        if (!current()) return;
+        renderShell();
+        el.content.innerHTML = (renderers[view] || dashboard)();
+        el.content.focus({ preventScroll: true });
+      }
+
+      /* ================= MODALS & FORMS ================= */
+      function openModal(title, body, saveLabel = "Save", onSave = null) {
+        el.modalTitle.textContent = title;
+        el.modalBody.innerHTML = body;
+        el.modalFoot.innerHTML = `<button class="btn" data-action="close-modal">Cancel</button><button class="btn primary" id="modalSaveBtn">${saveLabel}</button>`;
+        modalSave = onSave;
+        el.modalRoot.hidden = false;
+        document.body.style.overflow = "hidden";
+        $("modalSaveBtn").onclick = () => { if (modalSave) modalSave(); };
+      }
+
+      function closeModal() {
+        el.modalRoot.hidden = true;
+        document.body.style.overflow = "";
+        modalSave = null;
+      }
+
+      function field(label, name, value = "", type = "text", extra = "") {
+        return `<label class="form-field">${label}<input class="form-control" name="${name}" type="${type}" value="${esc(value)}" ${extra}></label>`;
+      }
+
+      function selectField(label, name, options, value = "") {
+        return `<label class="form-field">${label}<select class="form-control" name="${name}">${options.map(o => `<option value="${esc(o[0])}" ${o[0] === value ? "selected" : ""}>${esc(o[1])}</option>`).join("")}</select></label>`;
+      }
+
+      function newEmployee(existing = null) {
+        if (!isFounder()) return toast("Only the founder can manage employees.", "error");
+        const e = existing || { name: "", email: "", password: "", phone: "", department: "Engineering", roleTitle: "Employee", appRole: "employee", active: true, photo: "", joined: iso() };
+
+        openModal(
+          existing ? "Edit employee" : "Add employee",
+          `<form id="employeeForm">
+            <div class="form-grid">
+              ${field("Full name", "name", e.name, "text", "required")}
+              ${field("Email address", "email", e.email, "email", "required")}
+              ${field("Phone", "phone", e.phone)}
+              ${field("Department", "department", e.department, "text", "required")}
+              ${field("Job / role title", "roleTitle", e.roleTitle, "text", "required")}
+              ${selectField("Workspace role", "appRole", [["employee", "Employee"], ["teamlead", "Team Lead"], ["founder", "Founder"]], e.appRole)}
+              ${field("Login password", "password", e.password, "text", "required minlength='6' placeholder='Set login password'")}
+              ${selectField("Account status", "active", [["true", "Active"], ["false", "Inactive"]], String(e.active))}
+              <label class="form-field full">Profile photo
+                <input class="form-control" type="file" name="photo" id="employeePhoto" accept="image/png,image/jpeg,image/webp">
+                <span class="form-help">JPG, PNG or WebP under 500 KB recommended.</span>
+                <div id="photoPreview" class="profile-preview" style="margin-top:10px">
+                  ${avatar(e, "lg")}<span class="muted">${e.photo ? "Current photo" : "No photo selected"}</span>
+                </div>
+              </label>
+            </div>
+          </form>`,
+          existing ? "Save changes" : "Add employee",
+          () => {
+            const f = $("employeeForm");
+            if (!f.reportValidity()) return;
+            const fd = new FormData(f);
+            const data = {
+              name: fd.get("name").trim(),
+              email: fd.get("email").trim(),
+              password: fd.get("password").trim(),
+              phone: fd.get("phone").trim(),
+              department: fd.get("department").trim(),
+              roleTitle: fd.get("roleTitle").trim(),
+              appRole: fd.get("appRole"),
+              active: fd.get("active") === "true"
+            };
+            if (!data.name || !data.email || !data.password) return toast("Name, email and password are required.", "error");
+            if (db.employees.some(x => x.email.toLowerCase() === data.email.toLowerCase() && x.id !== e.id)) {
+              return toast("An employee with this email already exists.", "error");
+            }
+            const file = $("employeePhoto").files[0];
+            const commit = photo => {
+              if (existing) Object.assign(existing, data, { photo: photo ?? existing.photo });
+              else db.employees.push({ id: uid("e"), ...data, photo: photo || "", joined: iso() });
+              save();
+              closeModal();
+              render();
+              toast(existing ? "Employee updated" : "Employee added");
+            };
+            if (file) {
+              if (file.size > 700 * 1024) return toast("Please choose a photo under 700 KB.", "error");
+              const reader = new FileReader();
+              reader.onload = () => commit(reader.result);
+              reader.readAsDataURL(file);
+            } else commit(null);
+          }
+        );
+
+        $("employeePhoto").addEventListener("change", ev => {
+          const file = ev.target.files[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = () => {
+            $("photoPreview").innerHTML = `<img class="avatar lg" src="${reader.result}" alt="Photo preview"><span class="muted">Photo preview</span>`;
+          };
+          reader.readAsDataURL(file);
+        });
+      }
+
+      function newProject(existing = null) {
+        if (!canLead()) return toast("You don't have permission to create projects.", "error");
+        const p = existing || { name: "", description: "", deadline: iso(14), status: "active", memberIds: [current().id] };
+
+        openModal(
+          existing ? "Edit project" : "Create project",
+          `<form id="projectForm">
+            <div class="form-grid">
+              ${field("Project name", "name", p.name, "text", "required")}
+              ${field("Deadline", "deadline", p.deadline, "date", "required")}
+              <label class="form-field full">Description
+                <textarea class="form-control" name="description" required>${esc(p.description)}</textarea>
+              </label>
+              ${selectField("Status", "status", [["active", "Active"], ["paused", "Paused"], ["completed", "Completed"]], p.status)}
+              <label class="form-field full">Project members
+                <select class="form-control" name="memberIds" multiple size="5">
+                  ${db.employees.filter(e => e.active).map(e => `<option value="${e.id}" ${p.memberIds.includes(e.id) ? "selected" : ""}>${esc(e.name)} — ${esc(e.roleTitle)}</option>`).join("")}
+                </select>
+                <span class="form-help">Hold Ctrl (or Cmd) to select multiple people.</span>
+              </label>
+            </div>
+          </form>`,
+          existing ? "Save project" : "Create project",
+          () => {
+            const f = $("projectForm");
+            if (!f.reportValidity()) return;
+            const fd = new FormData(f);
+            const data = {
+              name: fd.get("name").trim(),
+              description: fd.get("description").trim(),
+              deadline: fd.get("deadline"),
+              status: fd.get("status"),
+              memberIds: [...f.elements.memberIds.selectedOptions].map(o => o.value)
+            };
+            if (!data.name) return toast("Project name is required.", "error");
+            if (existing) Object.assign(existing, data);
+            else db.projects.push({ id: uid("p"), ownerId: current().id, ...data });
+            save();
+            closeModal();
+            render();
+            toast("Project saved");
+          }
+        );
+      }
+
+      function newTask(existing = null) {
+        if (!canLead()) return toast("Only a founder or team lead can assign tasks.", "error");
+        if (!db.projects.length) return toast("Create a project first before assigning tasks.", "error");
+        const assignable = db.employees.filter(e => e.active && e.appRole !== "founder");
+        if (!assignable.length) return toast("Add at least one employee first to assign tasks.", "error");
+
+        const t = existing || {
+          title: "",
+          description: "",
+          projectId: db.projects[0]?.id || "",
+          assigneeId: assignable[0]?.id || "",
+          startDate: iso(),
+          deadline: iso(7),
+          priority: "medium",
+          status: "todo",
+          progress: 0
+        };
+
+        openModal(
+          existing ? "Edit task" : "Assign a task",
+          `<form id="taskForm">
+            <div class="form-grid">
+              ${field("Task title", "title", t.title, "text", "required")}
+              ${selectField("Project", "projectId", db.projects.map(p => [p.id, p.name]), t.projectId)}
+              <label class="form-field full">Instructions
+                <textarea class="form-control" name="description" required>${esc(t.description)}</textarea>
+              </label>
+              ${selectField("Assign to", "assigneeId", assignable.map(e => [e.id, `${e.name} — ${e.roleTitle}`]), t.assigneeId)}
+              ${selectField("Priority", "priority", [["low", "Low"], ["medium", "Medium"], ["high", "High"]], t.priority)}
+              ${field("Start date", "startDate", t.startDate, "date")}
+              ${field("Deadline", "deadline", t.deadline, "date", "required")}
+              ${selectField("Status", "status", STATUS, t.status)}
+            </div>
+          </form>`,
+          existing ? "Save task" : "Assign task",
+          () => {
+            const f = $("taskForm");
+            if (!f.reportValidity()) return;
+            const fd = new FormData(f);
+            const data = Object.fromEntries(fd.entries());
+            if (!data.title.trim() || !data.assigneeId) return toast("Task title and assignee are required.", "error");
+            if (existing) Object.assign(existing, data);
+            else db.tasks.unshift({ id: uid("t"), ...data, progress: 0, submission: null, feedback: "" });
+            save();
+            addNotification(`${existing ? "Task updated" : "New task assigned"}: ${data.title}`);
+            closeModal();
+            render();
+            toast("Task saved");
+          }
+        );
+      }
+
+      function viewTask(id) {
+        const t = db.tasks.find(x => x.id === id);
+        if (!t) return;
+        const own = t.assigneeId === current().id;
+        const canReview = canLead();
+
+        openModal(
+          t.title,
+          `<div class="form-grid">
+            <div class="form-field"><span class="muted">Project</span><p><b>${esc(project(t.projectId).name)}</b></p></div>
+            <div class="form-field"><span class="muted">Assigned to</span><p><b>${esc(person(t.assigneeId).name)}</b></p></div>
+            <div class="form-field"><span class="muted">Deadline</span><p><b>${dateLabel(t.deadline)}</b></p></div>
+            <div class="form-field"><span class="muted">Priority / status</span><p>${priorityPill(t.priority)} ${statusPill(t.status)}</p></div>
+            <div class="form-field full"><span class="muted">Instructions</span><p>${esc(t.description)}</p></div>
+
+            ${t.feedback ? `<div class="form-field full"><span class="muted">Review feedback</span><p style="background:#fff8eb;padding:10px;border-radius:8px;border:1px solid #fde68a">${esc(t.feedback)}</p></div>` : ""}
+
+            ${t.submission ? `
+              <div class="form-field full">
+                <span class="muted">Employee submission</span>
+                <div style="background:#f8f9fc;padding:10px 12px;border-radius:8px;border:1px solid var(--line);margin-top:4px">
+                  <p style="margin:0 0 6px">${esc(t.submission.note || "No note provided")}</p>
+                  ${t.submission.link ? `<a href="${esc(t.submission.link)}" target="_blank" rel="noopener" style="font-size:11px;color:var(--accent);font-weight:600">Open submitted work link ↗</a>` : ""}
+                </div>
+              </div>
+            ` : ""}
+
+            ${own ? `
+              <div class="form-field full" style="border-top:1px solid var(--line);padding-top:14px">
+                <label>Update work progress (set to 100% to submit for review)
+                  <select class="form-control" id="taskProgress">
+                    ${[0, 20, 40, 60, 80, 100].map(n => `<option value="${n}" ${Number(t.progress) === n ? "selected" : ""}>${n}% ${n === 100 ? "— Ready to Submit" : ""}</option>`).join("")}
+                  </select>
+                </label>
+                <label style="display:block;margin-top:12px">Submission note
+                  <textarea class="form-control" id="submissionNote" placeholder="Describe what you completed...">${esc(t.submission?.note || "")}</textarea>
+                </label>
+                <label style="display:block;margin-top:10px">Work link (Figma, GitHub, Drive, etc.)
+                  <input class="form-control" id="submissionLink" type="url" placeholder="https://..." value="${esc(t.submission?.link || "")}">
+                </label>
+              </div>
+            ` : ""}
+
+            ${canReview && t.status === "review" ? `
+              <div class="form-field full" style="border-top:1px solid var(--line);padding-top:14px">
+                <label>Founder review decision
+                  <select class="form-control" id="reviewDecision">
+                    <option value="approve">Approve & Mark Completed</option>
+                    <option value="changes">Request Changes</option>
+                  </select>
+                </label>
+                <label style="display:block;margin-top:10px">Review feedback / notes
+                  <textarea class="form-control" id="reviewFeedback" placeholder="Optional approval note, or required instructions if requesting changes..."></textarea>
+                </label>
+              </div>
+            ` : ""}
+          </div>`,
+          canReview && t.status === "review" ? "Submit review" : own ? "Save & Update" : canLead() ? "Edit task" : "Close",
+          () => {
+            if (own) {
+              t.progress = Number($("taskProgress").value);
+              const note = $("submissionNote").value.trim();
+              const link = $("submissionLink").value.trim();
+              if (t.progress >= 100) {
+                t.status = "review";
+                t.submission = { note: note || "Completed and submitted for review.", link, files: "" };
+                addNotification(`${current().name} submitted "${t.title}" for review.`);
+                toast("Work submitted for founder review!");
+              } else {
+                if (t.status === "todo" || t.status === "changes") t.status = "progress";
+                if (note || link) t.submission = { note, link, files: "" };
+                toast("Work progress updated.");
+              }
+            } else if (canReview && t.status === "review") {
+              const decision = $("reviewDecision").value;
+              const feedback = $("reviewFeedback").value.trim();
+              if (decision === "changes") {
+                if (!feedback) return toast("Please enter feedback explaining the requested changes.", "error");
+                t.feedback = feedback;
+                t.status = "changes";
+                addNotification(`Changes requested on "${t.title}".`);
+                toast("Returned to employee for changes.");
+              } else {
+                t.status = "completed";
+                t.feedback = feedback || "Approved.";
+                addNotification(`"${t.title}" was approved and completed.`);
+                toast("Submission approved!");
+              }
+            } else if (canLead()) {
+              closeModal();
+              return newTask(t);
+            }
+            save();
+            closeModal();
+            render();
+          }
+        );
+      }
+
+      function newMeeting() {
+        if (!canLead()) return;
+        openModal(
+          "Schedule a meeting",
+          `<form id="meetingForm">
+            <div class="form-grid">
+              ${field("Meeting title", "title", "", "text", "required")}
+              ${field("Date", "date", iso(1), "date", "required")}
+              ${field("Time", "time", "10:00", "time", "required")}
+              <label class="form-field full">Notes / agenda<textarea class="form-control" name="notes"></textarea></label>
+              <label class="form-field full">Attendees
+                <select class="form-control" name="attendees" multiple size="5">
+                  ${db.employees.filter(e => e.active).map(e => `<option value="${e.id}" selected>${esc(e.name)}</option>`).join("")}
+                </select>
+              </label>
+            </div>
+          </form>`,
+          "Schedule",
+          () => {
+            const f = $("meetingForm");
+            if (!f.reportValidity()) return;
+            const fd = new FormData(f);
+            db.meetings.push({
+              id: uid("m"),
+              title: fd.get("title"),
+              date: fd.get("date"),
+              time: fd.get("time"),
+              notes: fd.get("notes"),
+              attendees: [...f.elements.attendees.selectedOptions].map(o => o.value)
+            });
+            save();
+            closeModal();
+            render();
+            toast("Meeting scheduled");
+          }
+        );
+      }
+
+      function newMessage() {
+        openModal(
+          "Share an update",
+          `<form id="messageForm">
+            <div class="form-grid">
+              ${selectField("Post type", "type", isFounder() ? [["announcement", "Announcement"], ["update", "Team update"]] : [["update", "Team update"]], isFounder() ? "announcement" : "update")}
+              <label class="form-field full">Message
+                <textarea class="form-control" name="body" required placeholder="Write an update for your team..."></textarea>
+              </label>
+            </div>
+          </form>`,
+          "Post update",
+          () => {
+            const f = $("messageForm");
+            if (!f.reportValidity()) return;
+            const fd = new FormData(f);
+            db.messages.unshift({
+              id: uid("c"),
+              type: fd.get("type"),
+              authorId: current().id,
+              body: fd.get("body").trim(),
+              createdAt: new Date().toISOString()
+            });
+            save();
+            addNotification(`${current().name} posted a team update.`);
+            closeModal();
+            render();
+            toast("Update posted");
+          }
+        );
+      }
+
+      function newDocument() {
+        openModal(
+          "Upload a document",
+          `<form id="documentForm">
+            <div class="form-grid">
+              <label class="form-field full">Choose file<input class="form-control" type="file" name="file" required></label>
+              ${selectField("Project", "projectId", [["", "General / company-wide"], ...db.projects.map(p => [p.id, p.name])], "")}
+            </div>
+            <p class="muted-note">For this browser-only version, uploaded files are stored locally. Keep files under 450 KB.</p>
+          </form>`,
+          "Upload",
+          () => {
+            const f = $("documentForm");
+            if (!f.reportValidity()) return;
+            const file = f.elements.file.files[0];
+            if (!file) return;
+            if (file.size > 450000) return toast("Please choose a file smaller than 450 KB for local storage.", "error");
+            const reader = new FileReader();
+            reader.onload = () => {
+              db.documents.unshift({
+                id: uid("d"),
+                name: file.name,
+                projectId: f.elements.projectId.value,
+                uploadedBy: current().id,
+                size: Math.round(file.size / 1024) + " KB",
+                dataUrl: reader.result
+              });
+              save();
+              closeModal();
+              render();
+              toast("Document uploaded");
+            };
+            reader.readAsDataURL(file);
+          }
+        );
+      }
+
+      function profileModal() {
+        const u = current();
+        openModal(
+          "My Profile",
+          `<form id="profileForm">
+            <div class="form-grid">
+              ${field("Full name", "name", u.name, "text", "required")}
+              ${field("Email", "email", u.email, "email", "required")}
+              ${field("Phone", "phone", u.phone)}
+              ${field("Department", "department", u.department)}
+              <label class="form-field full">Profile photo
+                <input class="form-control" type="file" id="profilePhoto" accept="image/*">
+                <div id="myPhotoPreview" class="profile-preview" style="margin-top:10px">
+                  ${avatar(u, "lg")}<span class="muted">Current profile avatar</span>
+                </div>
+              </label>
+            </div>
+          </form>`,
+          "Save profile",
+          () => {
+            const f = $("profileForm");
+            if (!f.reportValidity()) return;
+            const fd = new FormData(f);
+            Object.assign(u, {
+              name: fd.get("name").trim(),
+              email: fd.get("email").trim(),
+              phone: fd.get("phone").trim(),
+              department: fd.get("department").trim()
+            });
+            const file = $("profilePhoto").files[0];
+            const done = () => {
+              save();
+              closeModal();
+              render();
+              toast("Profile updated");
+            };
+            if (file) {
+              if (file.size > 700000) return toast("Choose a photo under 700 KB.", "error");
+              const r = new FileReader();
+              r.onload = () => { u.photo = r.result; done(); };
+              r.readAsDataURL(file);
+            } else done();
+          }
+        );
+
+        $("profilePhoto").addEventListener("change", ev => {
+          const file = ev.target.files[0];
+          if (!file) return;
+          const r = new FileReader();
+          r.onload = () => {
+            $("myPhotoPreview").innerHTML = `<img class="avatar lg" src="${r.result}" alt="Preview"><span class="muted">New photo preview</span>`;
+          };
+          r.readAsDataURL(file);
+        });
+      }
+
+      /* ================= NOTIFICATIONS, ACCOUNT MENU & EXPORTS ================= */
+      function renderNotifications() {
+        const unread = db.notifications.filter(n => !n.read).length;
+        el.notifyDot.style.display = unread ? "block" : "none";
+        el.notifyList.innerHTML = db.notifications.map(n => `
+          <div class="notification-item ${n.read ? "" : "unread"}">
+            ${esc(n.text)}<small>${ago(n.createdAt)}</small>
+          </div>
+        `).join("") || `<p class="muted">You're all caught up.</p>`;
+      }
+
+      function openNotifications() {
+        closeAccountMenu();
+        el.notifyDrawer.classList.add("open");
+        el.overlay.classList.add("show");
+      }
+
+      function closePanels() {
+        el.notifyDrawer.classList.remove("open");
+        el.sidebar.classList.remove("open");
+        el.overlay.classList.remove("show");
+      }
+
+      function toggleAccountMenu() {
+        const isHidden = el.accountDropdown.hidden;
+        el.accountDropdown.hidden = !isHidden;
+        el.accountMenuBtn.setAttribute("aria-expanded", String(isHidden));
+      }
+
+      function closeAccountMenu() {
+        el.accountDropdown.hidden = true;
+        el.accountMenuBtn.setAttribute("aria-expanded", "false");
+      }
+
+      function exportJSON() {
+        const blob = new Blob([JSON.stringify(db, null, 2)], { type: "application/json" });
+        downloadBlob(blob, "m4-workspace-backup.json");
+      }
+
+      function exportCSV() {
+        const rows = [["Task", "Project", "Assignee", "Status", "Priority", "Deadline"], ...db.tasks.map(t => [t.title, project(t.projectId).name, person(t.assigneeId).name, statusLabel(t.status), t.priority, t.deadline])];
+        const csv = rows.map(r => r.map(v => `"${String(v ?? "").replace(/"/g, '""')}"`).join(",")).join("\n");
+        downloadBlob(new Blob([csv], { type: "text/csv" }), "m4-task-report.csv");
+      }
+
+      function downloadBlob(blob, name) {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = name;
+        a.click();
+        URL.revokeObjectURL(url);
+      }
+
+      function handleAction(action, id) {
+        closeAccountMenu();
+        const obj = arr => arr.find(x => x.id === id);
+        switch (action) {
+          case "new-task": newTask(); break;
+          case "new-project": newProject(); break;
+          case "new-employee": newEmployee(); break;
+          case "new-meeting": newMeeting(); break;
+          case "new-message": newMessage(); break;
+          case "new-document": newDocument(); break;
+          case "view-task": viewTask(id); break;
+          case "edit-employee": newEmployee(obj(db.employees)); break;
+          case "edit-project": newProject(obj(db.projects)); break;
+          case "profile": profileModal(); break;
+          case "change-password": changePasswordModal(); break;
+          case "logout": logout(); break;
+          case "go-my-tasks": view = "tasks"; render(); break;
+          case "close-modal": closeModal(); break;
+          case "delete-document":
+            if (confirm("Delete this document?")) {
+              db.documents = db.documents.filter(d => d.id !== id);
+              save();
+              render();
+              toast("Document deleted");
+            }
+            break;
+          case "export-json": exportJSON(); break;
+          case "export-report": exportCSV(); break;
+          case "reset-data":
+            if (confirm("Reset all workspace data? This cannot be undone.")) {
+              const uidKeep = db.currentUserId;
+              localStorage.removeItem(STORAGE_KEY);
+              load();
+              db.currentUserId = uidKeep;
+              save();
+              view = "dashboard";
+              render();
+              toast("Workspace data reset");
+            }
+            break;
+        }
+      }
+
+      /* ================= EVENT LISTENERS ================= */
+      el.tabFounder.addEventListener("click", () => setLoginPortal("founder"));
+      el.tabEmployee.addEventListener("click", () => setLoginPortal("employee"));
+
+      el.toggleLoginPwd.addEventListener("click", () => {
+        el.loginPassword.type = el.loginPassword.type === "password" ? "text" : "password";
+      });
+
+      el.forgotPwdBtn.addEventListener("click", forgotPasswordModal);
+
+      el.loginForm.addEventListener("submit", e => {
+        e.preventDefault();
+        const email = el.loginEmail.value.trim().toLowerCase();
+        const pwd = el.loginPassword.value;
+        const user = db.employees.find(emp => emp.email.toLowerCase() === email);
+
+        if (!user || user.password !== pwd) {
+          return toast("Invalid email or password.", "error");
+        }
+        if (!user.active) {
+          return toast("This account is inactive. Contact the Founder.", "error");
+        }
+        if (loginPortal === "founder" && user.appRole !== "founder") {
+          return toast("Access denied. Please use the Employee Portal to sign in.", "error");
+        }
+        if (loginPortal === "employee" && user.appRole === "founder") {
+          return toast("Please sign in via the Founder Portal.", "error");
+        }
+
+        db.currentUserId = user.id;
+        view = "dashboard";
+        save();
+        syncAuthScreen();
+        toast(`Welcome back, ${user.name}!`);
+      });
+
+      el.accountMenuBtn.addEventListener("click", e => {
+        e.stopPropagation();
+        toggleAccountMenu();
+      });
+
+      el.sidebarUser.addEventListener("click", () => profileModal());
+
+      document.addEventListener("click", e => {
+        if (!e.target.closest("#accountMenuWrap")) {
+          closeAccountMenu();
+        }
+        const nav = e.target.closest("[data-view]");
+        if (nav) {
+          view = nav.dataset.view;
+          searchQuery = "";
+          el.globalSearch.value = "";
+          closePanels();
+          closeAccountMenu();
+          render();
+          return;
+        }
+        const action = e.target.closest("[data-action]");
+        if (action) {
+          handleAction(action.dataset.action, action.dataset.id);
+          return;
+        }
+      });
+
+      el.menuBtn.addEventListener("click", () => {
+        el.sidebar.classList.toggle("open");
+        el.overlay.classList.toggle("show");
+      });
+      el.overlay.addEventListener("click", closePanels);
+      el.notifyBtn.addEventListener("click", openNotifications);
+      el.markAllRead.addEventListener("click", () => {
+        db.notifications.forEach(n => n.read = true);
+        save();
+        renderNotifications();
+        toast("Notifications marked as read");
+      });
+      el.modalClose.addEventListener("click", closeModal);
+      el.modalRoot.addEventListener("click", e => { if (e.target === el.modalRoot) closeModal(); });
+      document.addEventListener("keydown", e => {
+        if (e.key === "Escape") {
+          closeModal();
+          closePanels();
+          closeAccountMenu();
+        }
+      });
+
+      el.globalSearch.addEventListener("input", e => {
+        searchQuery = e.target.value.trim().toLowerCase();
+        if (!["tasks", "employees"].includes(view)) view = "tasks";
+        render();
+      });
+
+      el.content.addEventListener("change", e => {
+        if (e.target.id === "taskStatusFilter" || e.target.id === "taskProjectFilter") {
+          const status = $("taskStatusFilter")?.value || "";
+          const pid = $("taskProjectFilter")?.value || "";
+          let list = visibleTasks().filter(t => (!status || t.status === status) && (!pid || t.projectId === pid));
+          const host = el.content.querySelector(".kanban");
+          if (host) {
+            host.innerHTML = STATUS.map(([s, l]) => `
+              <section class="kanban-col">
+                <div class="kanban-head"><span>${l}</span><span class="kanban-count">${list.filter(t => t.status === s).length}</span></div>
+                ${list.filter(t => t.status === s).map(t => `
+                  <article class="kanban-card">
+                    <div>${priorityPill(t.priority)}</div>
+                    <h4>${esc(t.title)}</h4>
+                    <p>${esc(project(t.projectId).name)} · Due ${dateLabel(t.deadline)}</p>
+                    <div class="kanban-foot">
+                      ${avatar(person(t.assigneeId), "sm")}
+                      <button class="text-btn" data-action="view-task" data-id="${t.id}">Open →</button>
+                    </div>
+                  </article>
+                `).join("") || `<p class="muted" style="font-size:11px">No tasks</p>`}
+              </section>
+            `).join("");
+          }
+        }
+        if (e.target.id === "employeeDept" || e.target.id === "employeeActive") {
+          const dept = $("employeeDept")?.value || "";
+          const active = $("employeeActive")?.value || "";
+          const cards = [...el.content.querySelectorAll(".employee-card")];
+          cards.forEach(card => {
+            const text = card.textContent;
+            const emp = db.employees.find(x => text.includes(x.name));
+            card.style.display = (!dept || emp?.department === dept) && (!active || String(emp?.active) === active) ? "" : "none";
+          });
+        }
+      });
+
+      load();
+      syncAuthScreen();
+    })();
+  </script>
+</body>
+</html>
