@@ -736,7 +736,7 @@
   <div class="auth-shell" id="authScreen">
     <section class="auth-hero">
       <div class="auth-brand">
-        <div class="brand-mark">M4</div>
+        <div class="brand-mark"><svg viewBox="0 0 120 90" width="28" height="22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 78V14L44 42L82 10H102L76 34L44 58L22 40V78H8Z" fill="#FFFFFF"/><path d="M54 64L88 32H98V56H108V67H98V78H85V67H54V64ZM85 56V44L72 56H85Z" fill="#7C2AE8"/></svg></div>
         <div>
           <p class="brand-name" style="font-size: 16px;">M4 Solutions</p>
           <p class="brand-sub" style="color: #93a0bb;">Enterprise Resource & Workspace</p>
@@ -826,8 +826,8 @@
   <!-- ================= WORKSPACE SHELL ================= -->
   <div class="app hidden" id="appShell">
     <aside class="sidebar" id="sidebar">
-      <div class="brand">
-        <div class="brand-mark">M4</div>
+      <div class="brand" data-view="dashboard" style="cursor:pointer" title="Back to Dashboard">
+        <div class="brand-mark"><svg viewBox="0 0 120 90" width="28" height="22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 78V14L44 42L82 10H102L76 34L44 58L22 40V78H8Z" fill="#FFFFFF"/><path d="M54 64L88 32H98V56H108V67H98V78H85V67H54V64ZM85 56V44L72 56H85Z" fill="#7C2AE8"/></svg></div>
         <div>
           <p class="brand-name">M4 Solutions</p>
           <p class="brand-sub" id="sidebarPortalLabel">Company Workspace</p>
@@ -1310,6 +1310,10 @@
               <strong>${esc(m.title)}</strong>
               <p>${esc(m.time)} · ${m.attendees.length} attendees${m.notes ? " · " + esc(m.notes) : ""}</p>
             </div>
+            <div class="actions" style="gap:8px">
+              <button class="text-btn" data-action="edit-meeting" data-id="${m.id}">Edit</button>
+              <button class="text-btn" style="color:#dc2626" data-action="delete-meeting" data-id="${m.id}">Delete</button>
+            </div>
           </div>
         `).join("") : `<div class="empty-state"><strong>No upcoming meetings</strong><p>Scheduled sessions will appear here.</p></div>`;
       }
@@ -1670,7 +1674,7 @@
           ${pageHead(
             "Meetings",
             "Keep team syncs and reviews organised.",
-            canLead() ? button("+ Schedule meeting", "new-meeting", "primary") : ""
+            button("+ Schedule meeting", "new-meeting", "primary")
           )}
           <section class="panel">
             ${meetingRows([...list].sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time)))}
@@ -1700,7 +1704,13 @@
                     <strong>${esc(person(m.authorId).name)}</strong>
                     <small>${ago(m.createdAt)}</small>
                   </div>
-                  <span class="message-type">${esc(m.type)}</span>
+                  <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+                    <span class="message-type">${esc(m.type)}</span>
+                    <div class="actions" style="gap:8px">
+                      <button class="text-btn" data-action="edit-message" data-id="${m.id}">Edit</button>
+                      <button class="text-btn" style="color:#dc2626" data-action="delete-message" data-id="${m.id}">Delete</button>
+                    </div>
+                  </div>
                   <p>${esc(m.body)}</p>
                 </div>
               </div>
@@ -1725,7 +1735,8 @@
                   <p>${esc(project(d.projectId).name)} · ${esc(d.size || "File")}</p>
                 </div>
                 <a class="btn small" href="${d.dataUrl}" download="${esc(d.name)}">Download</a>
-                ${isFounder() || d.uploadedBy === current().id ? `<button class="btn small danger" data-action="delete-document" data-id="${d.id}">Delete</button>` : ""}
+                <button class="btn small" data-action="edit-document" data-id="${d.id}">Edit</button>
+                <button class="btn small danger" data-action="delete-document" data-id="${d.id}">Delete</button>
               </div>
             `).join("") || `<div class="empty-state"><strong>No documents uploaded</strong><p>Upload a file to share it with the team.</p></div>`}
           </section>
@@ -2143,72 +2154,104 @@
         );
       }
 
-      function newMeeting() {
-        if (!canLead()) return;
+      function newMeeting(existing = null) {
+        const m = existing || { title: "", date: iso(1), time: "10:00", notes: "", attendees: db.employees.filter(e => e.active).map(e => e.id) };
         openModal(
-          "Schedule a meeting",
+          existing ? "Edit meeting" : "Schedule a meeting",
           `<form id="meetingForm">
             <div class="form-grid">
-              ${field("Meeting title", "title", "", "text", "required")}
-              ${field("Date", "date", iso(1), "date", "required")}
-              ${field("Time", "time", "10:00", "time", "required")}
-              <label class="form-field full">Notes / agenda<textarea class="form-control" name="notes"></textarea></label>
+              ${field("Meeting title", "title", m.title, "text", "required")}
+              ${field("Date", "date", m.date, "date", "required")}
+              ${field("Time", "time", m.time, "time", "required")}
+              <label class="form-field full">Notes / agenda<textarea class="form-control" name="notes">${esc(m.notes || "")}</textarea></label>
               <label class="form-field full">Attendees
                 <select class="form-control" name="attendees" multiple size="5">
-                  ${db.employees.filter(e => e.active).map(e => `<option value="${e.id}" selected>${esc(e.name)}</option>`).join("")}
+                  ${db.employees.filter(e => e.active).map(e => `<option value="${e.id}" ${m.attendees.includes(e.id) ? "selected" : ""}>${esc(e.name)}</option>`).join("")}
                 </select>
               </label>
             </div>
           </form>`,
-          "Schedule",
+          existing ? "Save changes" : "Schedule",
           () => {
             const f = $("meetingForm");
             if (!f.reportValidity()) return;
             const fd = new FormData(f);
-            db.meetings.push({
-              id: uid("m"),
+            const data = {
               title: fd.get("title"),
               date: fd.get("date"),
               time: fd.get("time"),
               notes: fd.get("notes"),
               attendees: [...f.elements.attendees.selectedOptions].map(o => o.value)
-            });
+            };
+            if (existing) Object.assign(existing, data);
+            else db.meetings.push({ id: uid("m"), ...data });
             save();
             closeModal();
             render();
-            toast("Meeting scheduled");
+            toast(existing ? "Meeting updated" : "Meeting scheduled");
           }
         );
       }
 
-      function newMessage() {
+      function newMessage(existing = null) {
+        const m = existing || { type: isFounder() ? "announcement" : "update", body: "" };
         openModal(
-          "Share an update",
+          existing ? "Edit update" : "Share an update",
           `<form id="messageForm">
             <div class="form-grid">
-              ${selectField("Post type", "type", isFounder() ? [["announcement", "Announcement"], ["update", "Team update"]] : [["update", "Team update"]], isFounder() ? "announcement" : "update")}
+              ${selectField("Post type", "type", isFounder() ? [["announcement", "Announcement"], ["update", "Team update"]] : [["update", "Team update"]], m.type)}
               <label class="form-field full">Message
-                <textarea class="form-control" name="body" required placeholder="Write an update for your team..."></textarea>
+                <textarea class="form-control" name="body" required placeholder="Write an update for your team...">${esc(m.body)}</textarea>
               </label>
             </div>
           </form>`,
-          "Post update",
+          existing ? "Save changes" : "Post update",
           () => {
             const f = $("messageForm");
             if (!f.reportValidity()) return;
             const fd = new FormData(f);
-            db.messages.unshift({
-              id: uid("c"),
-              type: fd.get("type"),
-              authorId: current().id,
-              body: fd.get("body").trim(),
-              createdAt: new Date().toISOString()
-            });
+            if (existing) {
+              existing.type = fd.get("type");
+              existing.body = fd.get("body").trim();
+            } else {
+              db.messages.unshift({
+                id: uid("c"),
+                type: fd.get("type"),
+                authorId: current().id,
+                body: fd.get("body").trim(),
+                createdAt: new Date().toISOString()
+              });
+              addNotification(`${current().name} posted a team update.`);
+            }
             save();
-            addNotification(`${current().name} posted a team update.`);
             closeModal();
             render();
-            toast("Update posted");
+            toast(existing ? "Update edited" : "Update posted");
+          }
+        );
+      }
+
+      function editDocument(existing) {
+        if (!existing) return;
+        openModal(
+          "Edit document",
+          `<form id="editDocForm">
+            <div class="form-grid">
+              ${field("File name", "name", existing.name, "text", "required")}
+              ${selectField("Project", "projectId", [["", "General / company-wide"], ...db.projects.map(p => [p.id, p.name])], existing.projectId || "")}
+            </div>
+          </form>`,
+          "Save changes",
+          () => {
+            const f = $("editDocForm");
+            if (!f.reportValidity()) return;
+            const fd = new FormData(f);
+            existing.name = fd.get("name").trim();
+            existing.projectId = fd.get("projectId");
+            save();
+            closeModal();
+            render();
+            toast("Document updated");
           }
         );
       }
@@ -2368,6 +2411,25 @@
           case "new-project": newProject(); break;
           case "new-employee": newEmployee(); break;
           case "new-meeting": newMeeting(); break;
+          case "edit-meeting": newMeeting(obj(db.meetings)); break;
+          case "delete-meeting":
+            if (confirm("Delete this meeting?")) {
+              db.meetings = db.meetings.filter(m => m.id !== id);
+              save();
+              render();
+              toast("Meeting deleted");
+            }
+            break;
+          case "edit-message": newMessage(obj(db.messages)); break;
+          case "delete-message":
+            if (confirm("Delete this post?")) {
+              db.messages = db.messages.filter(m => m.id !== id);
+              save();
+              render();
+              toast("Post deleted");
+            }
+            break;
+          case "edit-document": editDocument(obj(db.documents)); break;
           case "new-message": newMessage(); break;
           case "new-document": newDocument(); break;
           case "view-task": viewTask(id); break;

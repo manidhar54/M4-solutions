@@ -195,7 +195,7 @@ app.delete("/api/tasks/:id", auth, async (req, res) => {
 });
 
 // --- MEETINGS ---
-app.post("/api/meetings", auth, founderOnly, async (req, res) => {
+app.post("/api/meetings", auth, async (req, res) => {
   try {
     const meeting = await Meeting.create(req.body);
     res.status(201).json(formatDoc(meeting));
@@ -204,7 +204,16 @@ app.post("/api/meetings", auth, founderOnly, async (req, res) => {
   }
 });
 
-app.delete("/api/meetings/:id", auth, founderOnly, async (req, res) => {
+app.put("/api/meetings/:id", auth, async (req, res) => {
+  try {
+    const meeting = await Meeting.findByIdAndUpdate(req.params.id, req.body, { returnDocument: "after" });
+    res.json(formatDoc(meeting));
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.delete("/api/meetings/:id", auth, async (req, res) => {
   try {
     await Meeting.findByIdAndDelete(req.params.id);
     res.json({ success: true });
@@ -218,6 +227,15 @@ app.post("/api/messages", auth, async (req, res) => {
   try {
     const message = await Message.create(req.body);
     res.status(201).json(formatDoc(message));
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.put("/api/messages/:id", auth, async (req, res) => {
+  try {
+    const message = await Message.findByIdAndUpdate(req.params.id, req.body, { returnDocument: "after" });
+    res.json(formatDoc(message));
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -237,6 +255,15 @@ app.post("/api/documents", auth, async (req, res) => {
   try {
     const doc = await Document.create(req.body);
     res.status(201).json(formatDoc(doc));
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.put("/api/documents/:id", auth, async (req, res) => {
+  try {
+    const doc = await Document.findByIdAndUpdate(req.params.id, req.body, { returnDocument: "after" });
+    res.json(formatDoc(doc));
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

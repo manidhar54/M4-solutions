@@ -75,7 +75,7 @@ window.M4_API = {
         } else if (JSON.stringify(oldMap.get(id)) !== JSON.stringify(item)) {
           const payload = { ...item };
           delete payload.id;
-          if (/^[a-f0-9]{24}$/i.test(id) && ["/users", "/projects", "/tasks"].includes(path)) {
+          if (/^[a-f0-9]{24}$/i.test(id) && ["/users", "/projects", "/tasks", "/meetings", "/messages", "/documents"].includes(path)) {
             await this.request(`${path}/${id}`, "PUT", payload).catch(console.error);
           }
         }
