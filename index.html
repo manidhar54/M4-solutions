@@ -2030,7 +2030,7 @@
               <label class="form-field full">Instructions
                 <textarea class="form-control" name="description" required>${esc(t.description)}</textarea>
               </label>
-              ${selectField("Assign to", "assigneeId", assignable.map(e => [e.id, `${e.name} — ${e.roleTitle}`]), t.assigneeId)}
+              ${selectField("Assign to", "assigneeId", [["", "— Unassigned —"], ...assignable.map(e => [e.id, `${e.name} — ${e.roleTitle}`])], t.assigneeId || "")}
               ${selectField("Priority", "priority", [["low", "Low"], ["medium", "Medium"], ["high", "High"]], t.priority)}
               ${field("Start date", "startDate", t.startDate, "date")}
               ${field("Deadline", "deadline", t.deadline, "date", "required")}
@@ -2043,7 +2043,7 @@
             if (!f.reportValidity()) return;
             const fd = new FormData(f);
             const data = Object.fromEntries(fd.entries());
-            if (!data.title.trim() || !data.assigneeId) return toast("Task title and assignee are required.", "error");
+            if (!data.title.trim()) return toast("Task title is required.", "error");
             if (existing) Object.assign(existing, data);
             else db.tasks.unshift({ id: uid("t"), ...data, progress: 0, submission: null, feedback: "" });
             save();
@@ -2065,7 +2065,7 @@
           t.title,
           `<div class="form-grid">
             <div class="form-field"><span class="muted">Project</span><p><b>${esc(project(t.projectId).name)}</b></p></div>
-            <div class="form-field"><span class="muted">Assigned to</span><p><b>${esc(person(t.assigneeId).name)}</b></p></div>
+            <div class="form-field"><span class="muted">Assigned to</span><p><b>${t.assigneeId ? esc(person(t.assigneeId).name) : "Unassigned"}</b></p></div>
             <div class="form-field"><span class="muted">Deadline</span><p><b>${dateLabel(t.deadline)}</b></p></div>
             <div class="form-field"><span class="muted">Priority / status</span><p>${priorityPill(t.priority)} ${statusPill(t.status)}</p></div>
             <div class="form-field full"><span class="muted">Instructions</span><p>${esc(t.description)}</p></div>
@@ -2095,6 +2095,14 @@
                 <label style="display:block;margin-top:10px">Work link (Figma, GitHub, Drive, etc.)
                   <input class="form-control" id="submissionLink" type="url" placeholder="https://..." value="${esc(t.submission?.link || "")}">
                 </label>
+              </div>
+            ` : ""}
+
+            ${canReview ? `
+              <div class="form-field full" style="border-top:1px solid var(--line);padding-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+                ${t.assigneeId ? `<button type="button" class="btn small soft" data-action="unassign-task" data-id="${t.id}">Unassign employee</button>` : ""}
+                <button type="button" class="btn small soft" data-action="edit-task" data-id="${t.id}">Edit / Reassign</button>
+                <button type="button" class="btn small danger" data-action="delete-task" data-id="${t.id}">Delete task</button>
               </div>
             ` : ""}
 
@@ -2433,6 +2441,36 @@
           case "new-message": newMessage(); break;
           case "new-document": newDocument(); break;
           case "view-task": viewTask(id); break;
+          case "unassign-task": {
+            const task = obj(db.tasks);
+            if (!task) break;
+            const prev = task.assigneeId ? person(task.assigneeId).name : "employee";
+            task.assigneeId = "";
+            if (task.status === "progress") task.status = "todo";
+            save();
+            addNotification(`Task "${task.title}" was unassigned from ${prev}.`);
+            closeModal();
+            render();
+            toast("Employee unassigned from task");
+            break;
+          }
+          case "edit-task": {
+            const task = obj(db.tasks);
+            if (!task) break;
+            closeModal();
+            newTask(task);
+            break;
+          }
+          case "delete-task": {
+            if (confirm("Delete this task permanently?")) {
+              db.tasks = db.tasks.filter(x => x.id !== id);
+              save();
+              closeModal();
+              render();
+              toast("Task deleted");
+            }
+            break;
+          }
           case "edit-employee": newEmployee(obj(db.employees)); break;
           case "edit-project": newProject(obj(db.projects)); break;
           case "delete-project": {
